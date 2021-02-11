@@ -1,16 +1,15 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div>
+    找回密码
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'App'
+  name: 'BackPassword'
 };
 </script>
 
-<style>
+<style scoped>
 
 </style>
