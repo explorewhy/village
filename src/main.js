@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import './plugins/element.js';
 import './assets/css/globalBase.css';
+import 'ol/ol.css';
 
 Vue.config.productionTip = false;
 

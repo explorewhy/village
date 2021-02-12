@@ -1,22 +1,26 @@
 <template>
-<div>
+<div class="home">
 <!--顶部-->
-  <Navigation></Navigation>
+  <div class="home-top">
+    <Navigation></Navigation>
+  </div>
 <!--主体-->
-  <Main></Main>
+  <div class="home-main">
+    <Main></Main>
+  </div>
 <!--底部-->
-  <Footer></Footer>
+<!--  <Footer></Footer>-->
 </div>
 </template>
 
 <script>
 import Navigation from '../components/nav/Navigation';
 import Main from '../components/main/Main';
-import Footer from '../components/footer/Footer';
+// import Footer from '../components/footer/Footer';
 export default {
   name: 'Home',
   components: {
-    Footer,
+    // Footer,
     Main,
     Navigation
   }
@@ -24,5 +28,15 @@ export default {
 </script>
 
 <style scoped>
-
+  .home {
+    width: 100%;
+    height: 100%;
+  }
+  .home-top {
+    height: 10%;
+    background-color: pink;
+  }
+  .home-main {
+    height: 90%;
+  }
 </style>
