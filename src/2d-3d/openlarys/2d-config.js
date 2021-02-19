@@ -30,10 +30,10 @@ const streetap = function () {
   }
   return [maplayer];
 };
-const mapconfig = {
+const config = {
   x: 116.20, // 中心点经度和纬度
   y: 39.56,
   zoom: 5, // 地图缩放级别
   streetap
 };
-export default mapconfig;
+export default config;

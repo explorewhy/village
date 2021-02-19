@@ -4,7 +4,7 @@
 
 <script>
 import { Map, View } from 'ol';
-import mapconfig from './mapConfig';
+import config from './2d-config';
 export default {
   name: 'OlMap',
   data () {
@@ -20,11 +20,11 @@ export default {
       const mapViewer = document.getElementById('mapViewer');
       this.map = new Map({
         target: mapViewer,
-        layers: mapconfig.streetap(),
+        layers: config.streetap(),
         view: new View({
           projection: 'EPSG:4326',
-          center: [mapconfig.x, mapconfig.y],
-          zoom: mapconfig.zoom
+          center: [config.x, config.y],
+          zoom: config.zoom
         })
       });
     }

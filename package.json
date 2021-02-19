@@ -13,7 +13,8 @@
     "element-ui": "^2.4.5",
     "ol": "^6.5.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
