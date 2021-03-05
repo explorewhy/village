@@ -21,4 +21,3 @@ export function initMap (instance, id) {
   });
   instance._cesiumWidget._creditContainer.style.display = "none";
 }
-

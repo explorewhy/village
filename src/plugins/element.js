@@ -4,9 +4,19 @@ import {
   Form,
   FormItem,
   Input,
-  Message
+  Message,
+  Menu,
+  MenuItem,
+  MenuItemGroup,
+  Submenu,
+  Tooltip
 } from 'element-ui';
 
+Vue.use(Tooltip);
+Vue.use(Submenu);
+Vue.use(MenuItemGroup);
+Vue.use(MenuItem);
+Vue.use(Menu);
 Vue.prototype.$message = Message;
 Vue.use(Input);
 Vue.use(FormItem);
