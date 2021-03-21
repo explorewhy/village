@@ -9,9 +9,17 @@ import {
   MenuItem,
   MenuItemGroup,
   Submenu,
-  Tooltip
+  Tooltip,
+  Drawer,
+  Table,
+  TableColumn,
+  Notification
 } from 'element-ui';
 
+Vue.prototype.$notify = Notification;
+Vue.use(TableColumn);
+Vue.use(Table);
+Vue.use(Drawer);
 Vue.use(Tooltip);
 Vue.use(Submenu);
 Vue.use(MenuItemGroup);

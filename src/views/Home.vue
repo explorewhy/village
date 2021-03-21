@@ -48,7 +48,6 @@ export default {
   }
   .home-top {
     height: 10%;
-    background-color: pink;
   }
   .home-main {
     position: relative;
