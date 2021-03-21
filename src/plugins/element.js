@@ -13,9 +13,10 @@ import {
   Drawer,
   Table,
   TableColumn,
-  Notification
+  Notification,
+  Badge
 } from 'element-ui';
-
+Vue.use(Badge);
 Vue.prototype.$notify = Notification;
 Vue.use(TableColumn);
 Vue.use(Table);

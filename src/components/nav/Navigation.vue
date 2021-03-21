@@ -11,19 +11,22 @@
       </ul>
     </div>
     <div class="base">
-      <ul class="tool-box">
-        <li>工具</li>
-      </ul>
+     <div class="tool-box">
+     </div>
       <div class="user-manage">
-        用户管理
+        <user></user>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import User from './components/User';
 export default {
-  name: 'Navigation'
+  name: 'Navigation',
+  components: {
+    User
+  }
 };
 </script>
 
@@ -43,15 +46,15 @@ export default {
       float: left;
     }
     .user-manage {
-      float: left;
-      width: 50%;
+      display: inline-block;
+      width: 7%;
       height: 100%;
-      background-color:pink;
     }
     .tool-box {
-      float: left;
-      width: 50%;
+      display: inline-block;
+      width: calc(93% - 3px);
       height: 100%;
+      border-right: solid 3px #bab7b7;
     }
   }
 </style>
