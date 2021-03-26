@@ -5,7 +5,9 @@
       <el-button size="mini" round type="primary" @click="open">报BUG</el-button>
       <el-button size="mini" round type="primary" @click="dialog = true">联系我</el-button>
     </div>
-    <div class="mouth"></div>
+    <el-tooltip  class="item" effect="dark" content="点我刷新" placement="left">
+      <div class="mouth" @click="refresh"></div>
+    </el-tooltip>
     <!--登录盒子-->
     <div class="login-box">
       <div class="login-title"><span>智慧农村管理平台</span></div>
@@ -55,6 +57,10 @@
         <div class="drawer-thanks">非常感谢您的支持</div>
       </div>
     </el-drawer>
+<!--底部版权-->
+    <div class="copy-right">
+      <div>CopyRight © 2021 版权归河北工程大学地球科学与工程学院 explorewhy 所有</div>
+    </div>
   </div>
 </template>
 
@@ -128,6 +134,9 @@ export default {
         offset: 100,
         type: 'success'
       });
+    },
+    refresh () {
+      window.location.reload();
     }
   }
 };
@@ -170,15 +179,26 @@ export default {
     color: #000;
     background: #fff;
     border-radius: 20px;
+    transition: 500ms;
+  }
+  .login-top-right:hover{
+    transform: scale(1.2, 1.2);
   }
   .mouth {
     position: absolute;
     top: 69px;
-    right: 103px;
-    width: 50px;
+    right: 93px;
+    width: 70px;
     height: 9px;
     background-color: #fff;
     border-radius: 20px;
+    transition: 700ms;
+  }
+  .mouth:hover{
+    cursor: pointer;
+    height: 30px;
+    background-color: #30c7cb;
+    border-radius: 100%;
   }
   .forgot-password {
     position: absolute;
@@ -203,5 +223,17 @@ export default {
     margin-top: 50px;
     width: 100%;
     text-align: center;
+  }
+  .copy-right {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    bottom: 5px;
+    color: #eee;
+    transition: 700ms;
+  }
+  .copy-right:hover {
+    bottom: 15px;
+    font-size: 15px;
   }
 </style>
