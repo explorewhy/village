@@ -5,11 +5,48 @@ import Home from '../views/Home';
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', redirect: '/login', meta: { title: '智慧农村三维平台' } },
-  { path: '/home', component: Home, meta: { title: '智慧农村三维平台' } },
-  { path: '/backPassword', component: () => import('../views/backPassword/BackPassword'), meta: { title: '找回密码' } },
-  { path: '/login', component: () => import('../views/login/Login'), meta: { title: '智慧农村三维平台' } },
-  { path: '/retrievepassword', component: () => import('../views/backPassword/BackPassword'), meta: { title: '修改密码' } }
+  {
+    path: '/',
+    redirect: '/login',
+    meta: { title: '智慧农村三维平台' }
+  },
+  {
+    path: '/home',
+    component: Home,
+    meta: { title: '智慧农村三维平台' }
+  },
+  {
+    path: '/backPassword',
+    meta: { title: '找回密码' },
+    component: () => import('../views/backPassword/BackPassword')
+  },
+  {
+    path: '/login',
+    meta: { title: '智慧农村三维平台' },
+    component: () => import('../views/login/Login')
+  },
+  {
+    path: '/profile',
+    meta: { title: '个人中心' },
+    component: () => import('../views/profile/Profile'),
+    children: [
+      {
+        path: '/profile/pro-accountInfo',
+        meta: { title: '账号信息' },
+        component: () => import('../views/profile/components/UserInfo')
+      },
+      {
+        path: '/profile/pro-changePassword',
+        meta: { title: '修改密码' },
+        component: () => import('../views/profile/components/ChangePassword')
+      }
+    ]
+  },
+  {
+    path: '/consoleHome',
+    meta: { title: '操作中心' },
+    component: () => import('../components/consoleHome/ConsoleHome')
+  }
 ];
 
 const router = new VueRouter({
@@ -19,8 +56,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next();
-  const token = window.sessionStorage.getItem('token');
-  if (!token) return next('/login');
+  // const token = window.sessionStorage.getItem('token');
+  // if (!token) return next('/login');
   window.document.title = to.meta.title;
   next();
 });

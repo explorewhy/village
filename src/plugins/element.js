@@ -14,8 +14,40 @@ import {
   Table,
   TableColumn,
   Notification,
-  Badge
+  Badge,
+  Row,
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Aside,
+  Container,
+  Col,
+  Card,
+  Main,
+  Carousel,
+  CarouselItem,
+  Header,
+  Tabs,
+  TabPane,
+  Tree
 } from 'element-ui';
+Vue.use(Tree);
+Vue.use(TabPane);
+Vue.use(Tabs);
+Vue.use(Header);
+Vue.use(CarouselItem);
+Vue.use(Carousel);
+Vue.use(Main);
+Vue.use(Card);
+Vue.use(Col);
+Vue.use(Container);
+Vue.use(Aside);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Dropdown);
+Vue.use(Row);
+Vue.use(Avatar);
 Vue.use(Badge);
 Vue.prototype.$notify = Notification;
 Vue.use(TableColumn);
