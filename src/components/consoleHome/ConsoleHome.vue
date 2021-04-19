@@ -3,16 +3,7 @@
     <div class="console-header">
       <Header></Header>
     </div>
-    <div class="console-aside">
-      <el-tabs v-model="activeName" type="card" @tab-click="handleClick" style="width: 292px">
-        <el-tab-pane label="数据管理" name="first">
-        </el-tab-pane>
-        <el-tab-pane label="功能列表" name="second">
-        </el-tab-pane>
-        <el-tab-pane label="地图操作" name="third">
-        </el-tab-pane>
-      </el-tabs>
-    </div>
+    <div class="console-aside"><Left></Left></div>
     <div class="console-main"><ControlViewer></ControlViewer></div>
   </div>
 </template>
@@ -20,11 +11,13 @@
 <script>
 import Header from './components/Header';
 import ControlViewer from './components/ControlViewer';
+import Left from './components/left/Left';
 export default {
   name: 'ConsoleHome',
   components: {
     Header,
-    ControlViewer
+    ControlViewer,
+    Left
   },
   data () {
     return {
