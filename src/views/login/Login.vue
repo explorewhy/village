@@ -5,9 +5,9 @@
       <el-button size="mini" round type="primary" @click="open">报BUG</el-button>
       <el-button size="mini" round type="primary" @click="dialog = true">联系我</el-button>
     </div>
-    <el-tooltip  class="item" effect="dark" content="点我刷新" placement="left">
-      <div class="mouth" @click="refresh"></div>
-    </el-tooltip>
+<!--    <el-tooltip  class="item" effect="dark" content="点我刷新" placement="left">-->
+<!--      <div class="mouth" @click="refresh"></div>-->
+<!--    </el-tooltip>-->
     <!--登录盒子-->
     <div class="login-box">
       <div class="login-title"><span>智慧农村管理平台</span></div>

@@ -30,8 +30,12 @@ import {
   Header,
   Tabs,
   TabPane,
-  Tree
+  Tree,
+  Steps,
+  Step
 } from 'element-ui';
+Vue.use(Step);
+Vue.use(Steps);
 Vue.use(Tree);
 Vue.use(TabPane);
 Vue.use(Tabs);
