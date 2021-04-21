@@ -24,8 +24,8 @@
       const latitude = document.getElementById('latitude');
       const longitude = document.getElementById('longitude');
       // 初始化地图
-      initMap(this.viewer, 'cesiumViewer', latitude, longitude);
-      // this.getCoordinates();
+      this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
+      this.addGeoJson();
     },
     methods: {
       getCoordinates () {
@@ -44,6 +44,30 @@
             document.getElementById('longitude').innerHTML = Cesium.Math.toDegrees(cartographic.longitude).toFixed(4);
           }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+      },
+      addGeoJson() {
+        let res = Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/China.json'), {
+          stroke: Cesium.Color.WHITE,
+          fill: Cesium.Color.BLUE.withAlpha(0.3), //注意：颜色必须大写，即不能为blue
+          strokeWidth: 5
+        });
+        this.viewer.dataSources.add(res);
+        // let entities = res.entities.values;
+        // let colorHash = {};
+        // for (let i = 0; i < entities.length; i++) {
+        //   let entity = entities[i];
+        //   let name = entity.name;
+        //   let color = colorHash[name];
+        //   if (!color) {
+        //     color = Cesium.Color.fromRandom({
+        //       alpha: 1.0
+        //     });
+        //     colorHash[name] = color;
+        //   }
+        //   entity.polygon.material = color;
+        //   entity.polygon.outline = false;
+        //   entity.polygon.extrudedHeight = entity.properties.childrenNum * 5000; //高度扩大5000倍，便于观察
+        // }
       }
     }
   };

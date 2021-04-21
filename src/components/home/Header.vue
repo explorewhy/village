@@ -5,31 +5,11 @@
       <div class="trackBar"></div>
       <div class="userInfo">
         <div class="details">
-          <el-avatar
-            :size="30"
-            :src="circleUrl"
-            style="position: relative;top: 8px;"
-          ></el-avatar>
-          <span class="userName" id="userName">请登录</span>
-          <el-dropdown class="userName">
-            <span class="el-dropdown-link">
-              <i class="el-icon-caret-bottom"></i>
-            </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-setting">
-                  <el-button type="text" @click="toProfile">个人中心</el-button>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+          <el-button @click="exit" size="mini">注销</el-button>
           </div>
           <div class="cancellation">
-            <img
-              @click="toConsoleHome"
-              src="../../assets/img/home/right.png"
-              width="30px"
-              height="30px"
-            />
-            <el-button @click="exit" title="退出登录" type="text" class="exit">注销</el-button>
+            <el-button @click="exit" size="mini">注销</el-button>
+            <el-button @click="exit" size="mini">注销</el-button>
           </div>
       </div>
     </div>
@@ -41,7 +21,6 @@
 export default {
   data () {
     return {
-      circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
     };
   },
   mounted () {
@@ -110,7 +89,7 @@ export default {
         padding: 0 0 0 15px;
 
         .details{
-          width: 62%;
+          width: 50%;
           height: 100%;
           float: left;
 
@@ -123,7 +102,7 @@ export default {
         }
 
         .cancellation{
-          width: 38%;
+          width: 50%;
           height: 100%;
           color: #fff;
           float: left;

@@ -74,8 +74,10 @@
               </el-carousel>
             </el-col>
           </el-row>
+          <!--地图视口-->
           <div class="viewerLeft" :style="{width:viewerWidth,height:centreHeight}">
             <home-viewer></home-viewer>
+            <ol-map v-show="false"></ol-map>
           </div>
         </div>
         <div class="viewerRight"></div>
@@ -117,6 +119,7 @@ import warningLevel from '../components/home/warningLevel/WarningLevel';
 import foodChart from '../components/home/foodChart/FoodChart';
 import populationChart from '../components/home/populationChart/PopulationChart';
 import HomeViewer from '../components/home/viewer/HomeViewer';
+import OlMap from '../components/home/viewer/OlMap';
 
 export default {
   name: 'farmHom',
@@ -170,6 +173,7 @@ export default {
   },
   components: {
     HomeViewer,
+    OlMap,
     Header,
     Footer,
     GDPChart,

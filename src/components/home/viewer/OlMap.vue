@@ -4,7 +4,7 @@
 
 <script>
 import { Map, View } from 'ol';
-import config from './2d-config';
+import config from '../../../2d-3d/openlarys/2d-config';
 export default {
   name: 'OlMap',
   data () {

@@ -41,21 +41,25 @@ export function initMap (instance, id, latitude, longitude) {
     show: true
   }));
   const options = {};
+  options.defaultResetView = Cesium.Rectangle.fromDegrees(73, 12, 135, 53);
   options.enableCompass = true; // 启用指南针
   options.enableZoomControls = true; // 启用缩放控件
   options.enableDistanceLegend = true; // 启用距离图例
   options.enableCompassOuterRing = true; // 启用指南针外环
   instance.extend(Cesium.viewerCesiumNavigationMixin, options);
-  instance.camera.setView({
-    destination: Cesium.Cartesian3.fromDegrees(103.84, 31.15, 7000000),
-    orientation: {
-      // 指向
-      heading: Cesium.Math.toRadians(348.4202942851978),
-      // 视角
-      pitch: Cesium.Math.toRadians(-90),
-      roll: Cesium.Math.toRadians(0)
-    }
-  });
+  setTimeout(function () {
+    instance.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(103.84, 31.15, 6000000),
+      // orientation: {
+      //   // 指向
+      //   heading: Cesium.Math.toRadians(348.4202942851978),
+      //   // 视角
+      //   pitch: Cesium.Math.toRadians(-90),
+      //   roll: Cesium.Math.toRadians(0)
+      // }
+    });
+  }, 1000);
+  instance.scene.screenSpaceCameraController.inertiaSpin = 0.9999;
   if (latitude && longitude) {
     const canvas = instance.scene.canvas;
     const ellipsoid = instance.scene.globe.ellipsoid;
@@ -72,4 +76,5 @@ export function initMap (instance, id, latitude, longitude) {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
+  return instance;
 }

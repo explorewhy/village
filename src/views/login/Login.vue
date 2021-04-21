@@ -59,13 +59,13 @@
     </el-drawer>
 <!--底部版权-->
     <div class="copy-right">
-      <div>CopyRight © 2021 版权归河北工程大学地球科学与工程学院 explorewhy 所有</div>
+      <div> © 2021 版权归河北工程大学地球科学与工程学院 explorewhy 所有</div>
     </div>
   </div>
 </template>
 
 <script>
-import { initial } from '../../network/login/login';
+import { initial, login } from '../../network/login/login';
 
 export default {
   name: 'Login',
@@ -99,12 +99,15 @@ export default {
      * 用户登录
      */
     userLogin () {
-      if (this.formInfo.username === 'admin' && this.formInfo.password === '123456') {
-        this.$router.push('/home');
-        this.$message.success('登录成功');
-      } else {
-        this.$message.error('用户名或密码错误');
-      }
+      const _this = this;
+      login(_this.formInfo.username, _this.formInfo.password).then(data => {
+        if (data.meta.status === 200) {
+          _this.$message.success('登陆成功');
+          _this.$router.push('/home');
+        } else {
+          _this.$message.error('用户名或密码错误,请重新输入');
+        }
+      });
     },
     /**
      * 重置表单
@@ -148,7 +151,7 @@ export default {
     width: 100%;
     height: 100%;
     background-image: url('../../assets/imgs/login.jpg');
-    background-repeat: no-repeat;
+    /*background-repeat: no-repeat;*/
     background-size: cover;
     background-position: center;
   }
