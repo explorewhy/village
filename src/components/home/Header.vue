@@ -5,11 +5,18 @@
       <div class="trackBar"></div>
       <div class="userInfo">
         <div class="details">
-          <el-button @click="exit" size="mini">注销</el-button>
+          <el-dropdown>
+            <span class="el-dropdown-link">
+            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+             </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-user-solid"><span @click="toProfile">个人中心</span></el-dropdown-item>
+              <el-dropdown-item icon="el-icon-circle-close"><span @click="exit">注销</span></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           </div>
           <div class="cancellation">
-            <el-button @click="exit" size="mini">注销</el-button>
-            <el-button @click="exit" size="mini">注销</el-button>
+            <el-button type="primary" size="mini" @click="toConsoleHome">控制台</el-button>
           </div>
       </div>
     </div>
@@ -70,7 +77,7 @@ export default {
       }
 
       .trackBar{
-        width: 70%;
+        width: 75%;
         height: 100%;
         float: left;
         pointer-events: auto;
@@ -81,37 +88,31 @@ export default {
       }
 
       .userInfo{
-        width: 12%;
+        width: 10%;
         height: 100%;
         float: left;
         text-shadow: none;
-        font-size: 18px;
-        padding: 0 0 0 15px;
 
         .details{
-          width: 50%;
+          width: 40%;
           height: 100%;
           float: left;
+          font-size: 14px;
 
-          .userName {
-            font-size: 16px;
-            letter-spacing: 0;
-            font-weight: 100;
-            color: #fff;
+          .el-avatar {
+            margin-top: 10px;
+            margin-left: 15px;
+            cursor: pointer;
           }
         }
 
         .cancellation{
-          width: 50%;
-          height: 100%;
-          color: #fff;
           float: left;
+          width: 60%;
+          height: 100%;
+          /*margin-left: 5px;*/
+          color: #fff;
           cursor: pointer;
-
-          .exit{
-            color: #ffffff;
-            font-size: 18px;
-          }
         }
       }
     }

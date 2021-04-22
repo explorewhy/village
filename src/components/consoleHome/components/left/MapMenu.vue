@@ -34,7 +34,14 @@
 
 <script>
 export default {
-  name: 'MapMenu'
+  name: 'MapMenu',
+  data () {
+    return {};
+  },
+  methods: {
+    handleOpen () {},
+    handleClose () {}
+  }
 };
 </script>
 

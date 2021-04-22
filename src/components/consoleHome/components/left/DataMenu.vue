@@ -34,7 +34,14 @@
 
 <script>
 export default {
-  name: 'DataMenu'
+  name: 'DataMenu',
+  data () {
+    return {};
+  },
+  methods: {
+    handleOpen () {},
+    handleClose () {}
+  }
 };
 </script>
 

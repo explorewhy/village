@@ -3,7 +3,7 @@
     <div class="headerTitle">
       <div class="title">智慧农村三维平台</div>
       <div class="trackBar"></div>
-      <el-button type="primary" size="mini" @click="toHome">首页</el-button>
+      <el-button type="primary" size="mini" @click="toHome" plain>首页</el-button>
     </div>
   </div>
 </template>
@@ -66,5 +66,8 @@ export default {
         background-size: 100% 100%;
       }
     }
+  }
+  .el-button {
+    margin-left: 15px;
   }
 </style>

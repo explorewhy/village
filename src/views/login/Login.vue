@@ -72,7 +72,20 @@ export default {
   data () {
     return {
       dialog: false,
-      callMeTable: null,
+      callMeTable: [
+        {
+          type: 'QQ',
+          value: '485417456'
+        },
+        {
+          type: '电话',
+          value: '13932076817(微信同号)'
+        },
+        {
+          type: '邮箱',
+          value: 'linzhangmeidi@outlook.com'
+        }
+      ],
       formInfo: {
         username: 'admin',
         password: '123456'
@@ -88,8 +101,13 @@ export default {
     };
   },
   mounted () {
+    const _this = this;
     initial().then(data => {
-      this.callMeTable = data.data;
+      if (data.meta.status === 200) {
+        _this.callMeTable = data.data;
+      } else {
+        _this.$message.warning('服务器连接失败');
+      }
     }).catch(e => {
       console.log(e);
     });
@@ -104,8 +122,10 @@ export default {
         if (data.meta.status === 200) {
           _this.$message.success('登陆成功');
           _this.$router.push('/home');
-        } else {
+        } else if (data.meta.status === 400) {
           _this.$message.error('用户名或密码错误,请重新输入');
+        } else {
+          _this.$message.warning('服务器连接失败');
         }
       });
     },
