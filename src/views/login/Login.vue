@@ -119,8 +119,10 @@ export default {
     userLogin () {
       const _this = this;
       login(_this.formInfo.username, _this.formInfo.password).then(data => {
+        console.log(data);
         if (data.meta.status === 200) {
           _this.$message.success('登陆成功');
+          window.sessionStorage.setItem('token', data.data);
           _this.$router.push('/home');
         } else if (data.meta.status === 400) {
           _this.$message.error('用户名或密码错误,请重新输入');

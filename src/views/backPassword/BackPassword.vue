@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { verifyUser, changePassword } from '../../network/backPassword';
 export default {
   name: 'BackPassword',
   data () {
@@ -74,13 +75,20 @@ export default {
       }
     },
     subUserForm () {
+      const _this = this;
       if (this.active === 1) {
         this.$refs.userForm.validate((valid) => {
           if (valid) {
-            this.active++;
-            if (this.active !== 1) {
-              this.backStepIsShow = true;
-            }
+            verifyUser(this.verifyUserForm.username).then(data => {
+              if (data.meta.status === 200) {
+                _this.active++;
+                if (this.active !== 1) {
+                  this.backStepIsShow = true;
+                }
+              } else {
+                _this.$message.error('用户不存在');
+              }
+            });
           } else {
             return false;
           }
@@ -88,7 +96,15 @@ export default {
       } else if (this.active === 2) {
         this.$refs.passwordForm.validate((valid) => {
           if (valid) {
-            this.active++;
+            changePassword(_this.passwordForm.firstPassword).then(data => {
+              console.log(data);
+              if (data.meta.status === 200) {
+                _this.active++;
+                _this.$message.success('密码修改成功');
+              } else {
+                _this.$message.error('密码修改失败');
+              }
+            });
             if (this.active === 3) {
               this.active = 3;
               this.nextStepIsShow = false;
