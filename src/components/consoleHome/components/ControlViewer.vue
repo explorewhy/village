@@ -1,5 +1,8 @@
 <template>
   <div class="control-viewer">
+    <div class="tool-bar">
+      <tool-bar :viewer="viewer"></tool-bar>
+    </div>
     <div id="cesiumViewer"></div>
     <div class="latitude-longitude">
       <div class="jingdu">经度: <span id="longitude">114.000</span></div>
@@ -10,9 +13,13 @@
 
 <script>
 import { initMap } from '../../../2d-3d/cesium/3d-config';
+import ToolBar from './toolbar/ToolBar';
 
 export default {
   name: 'ControlViewer',
+  components: {
+    ToolBar
+  },
   data () {
     return {
       viewer: {}
@@ -22,7 +29,8 @@ export default {
     const latitude = document.getElementById('latitude');
     const longitude = document.getElementById('longitude');
     // 初始化地图
-    initMap(this.viewer, 'cesiumViewer', latitude, longitude);
+    this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
+    this.$store.commit('addControlViewer', { viewer: this.viewer });
   }
 };
 </script>
@@ -37,7 +45,11 @@ export default {
     width: 100%;
     height: 100%;
   }
-
+  .tool-bar{
+    position: absolute;
+    top: 100px;
+    left: 300px;
+  }
   .latitude-longitude {
     position: relative;
     bottom: 54px;

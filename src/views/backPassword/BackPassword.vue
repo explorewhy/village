@@ -16,10 +16,10 @@
         </el-form>
         <el-form v-show="active === 2" :model="passwordForm" :rules="rules" ref="passwordForm" label-width="100px" class="demo-ruleForm password-modification">
           <el-form-item label="新密码" prop="firstPassword">
-            <el-input v-model="passwordForm.firstPassword" clearable></el-input>
+            <el-input v-model="passwordForm.firstPassword" clearable type="password"></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="secondPassword">
-            <el-input v-model="passwordForm.secondPassword" clearable></el-input>
+            <el-input v-model="passwordForm.secondPassword" clearable type="password"></el-input>
           </el-form-item>
         </el-form>
         <div class="card-btns" v-if="isShowBtns">
@@ -97,7 +97,6 @@ export default {
         this.$refs.passwordForm.validate((valid) => {
           if (valid) {
             changePassword(_this.passwordForm.firstPassword).then(data => {
-              console.log(data);
               if (data.meta.status === 200) {
                 _this.active++;
                 _this.$message.success('密码修改成功');
@@ -105,12 +104,9 @@ export default {
                 _this.$message.error('密码修改失败');
               }
             });
-            if (this.active === 3) {
-              this.active = 3;
-              this.nextStepIsShow = false;
-              this.isShowBtns = false;
-              this.isShowResult = true;
-            }
+            this.nextStepIsShow = false;
+            this.isShowBtns = false;
+            this.isShowResult = true;
             if (this.active !== 1) {
               this.backStepIsShow = true;
             }

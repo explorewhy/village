@@ -12,12 +12,14 @@
     "copy-webpack-plugin": "^8.1.1",
     "core-js": "^3.6.5",
     "echarts": "^4.9.0",
+    "element-resize-detector": "^1.2.2",
     "element-ui": "^2.4.5",
     "less": "^4.1.1",
     "less-loader": "^5.0.0",
     "ol": "^6.5.0",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1",
+    "vuex": "^3.6.2",
     "webpack": "^4.46.0"
   },
   "devDependencies": {

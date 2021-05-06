@@ -59,13 +59,13 @@
     </el-drawer>
 <!--底部版权-->
     <div class="copy-right">
-      <div> © 2021 版权归河北工程大学地球科学与工程学院 explorewhy 所有</div>
+      <div> CopyRight © 2021 版权归河北工程大学地球科学与工程学院<strong>陈世聪</strong>所有</div>
     </div>
   </div>
 </template>
 
 <script>
-import { initial, login } from '../../network/login/login';
+import { initial, getMasterInfo, login } from '../../network/login/login';
 
 export default {
   name: 'Login',
@@ -79,11 +79,11 @@ export default {
         },
         {
           type: '电话',
-          value: '13932076817(微信同号)'
+          value: '139xxxxxxxx(微信同号)'
         },
         {
           type: '邮箱',
-          value: 'linzhangmeidi@outlook.com'
+          value: 'xxxxxxxx@outlook.com'
         }
       ],
       formInfo: {
@@ -103,10 +103,15 @@ export default {
   mounted () {
     const _this = this;
     initial().then(data => {
+      if (data.meta.status !== 200) {
+        _this.$message.error('数据库连接失败, 请联系管理员');
+      }
+    });
+    getMasterInfo().then(data => {
       if (data.meta.status === 200) {
         _this.callMeTable = data.data;
       } else {
-        _this.$message.warning('服务器连接失败');
+        _this.$message.warning('服务器连接失败, 请联系管理员');
       }
     }).catch(e => {
       console.log(e);
@@ -127,7 +132,7 @@ export default {
         } else if (data.meta.status === 400) {
           _this.$message.error('用户名或密码错误,请重新输入');
         } else {
-          _this.$message.warning('服务器连接失败');
+          _this.$message.warning('服务器连接失败, 请联系管理员');
         }
       });
     },
@@ -253,12 +258,12 @@ export default {
     position: absolute;
     right: 10px;
     cursor: pointer;
-    bottom: 5px;
+    bottom: 15px;
     color: #eee;
     transition: 700ms;
   }
   .copy-right:hover {
-    bottom: 15px;
-    font-size: 15px;
+    bottom: 5px;
+    font-size: 17px;
   }
 </style>

@@ -63,7 +63,7 @@
         <div class="viewer1" :style="{width:viewerWidth,height:centreHeight}">
           <el-row class="viewerTop">
             <el-col :span="6" class="warningText">
-              <p>预警消息</p>
+              <p>消息通知</p>
             </el-col>
             <el-col :span="18">
               <el-carousel height="70px" direction="vertical" :autoplay="true"
@@ -141,16 +141,16 @@ export default {
       // 预警详细信息
       warningDetails: [{
         id: 1,
-        details: '所有的地级市中，有1个城市超载，3个城市临界超载，15个城市没有超载。'
+        details: '今晚八点所有干部到村委会开会！'
       }, {
         id: 2,
-        details: '地下水水质级别中，有5个城市超标。'
+        details: '2020-12-24日举行美丽乡村活动，通知到所有人'
       }, {
         id: 3,
-        details: '南阳市的人口目前最多，郑州市紧随其后。'
+        details: '2020-12-17晚上7点十字街有电影放映'
       }, {
         id: 4,
-        details: '粮食产量最多的市是：周口市。'
+        details: '2021-1-25日有村小学有一批玩具引入'
       }],
       // 检测次数
       monitoringTimes: 8,
