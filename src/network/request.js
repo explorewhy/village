@@ -14,13 +14,25 @@ export function request (config) {
   });
   // 3.响应拦截
   instance.interceptors.response.use(res => {
-    return res.data;
-  }, error => {
-    return {
-      meta: {
-        status: error.response.status
+    try {
+      if (res.data) {
+        return res.data;
+      } else {
+        return null;
       }
-    };
+    } catch (e) {
+      console.log(e);
+    }
+  }, error => {
+    try {
+      return {
+        meta: {
+          status: error.response.status
+        }
+      };
+    } catch (e) {
+      console.log(e);
+    }
   });
   // 4.发送网络请求
   return instance(config);

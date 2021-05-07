@@ -1,6 +1,7 @@
 <template>
   <div class="back-password">
     <div class="back-password-title">找回密码</div>
+    <!--卡片-->
     <el-card class="card-main" shadow="hover">
       <el-steps :active="active" align-center>
         <el-step title="用户验证" description=""></el-step>
@@ -27,10 +28,23 @@
           <el-button v-if="nextStepIsShow" @click="subUserForm">下一步</el-button>
         </div>
         <div class="password-modification" v-if="isShowResult">
-          <el-button @click="backLogin">返回登录页</el-button>
+          <span style="color: #42b883">密码修改成功</span>
         </div>
       </el-card>
     </el-card>
+  <!--跳转对话框-->
+    <el-dialog
+        title="页面跳转"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false">
+      <div>即将跳转到登录页面 <span style="color: red">{{skipTime}}</span> s</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="skipLogin">立即跳转</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -40,6 +54,17 @@ export default {
   name: 'BackPassword',
   data () {
     return {
+      rules: {
+        username: [
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
+        ],
+        firstPassword: [
+          { required: true, message: '密码不能为空', trigger: 'blur' }
+        ],
+        secondPassword: [
+          { required: true, message: '确认密码不能为空', trigger: 'blur' }
+        ]
+      },
       active: 1,
       backStepIsShow: false,
       nextStepIsShow: true,
@@ -52,17 +77,9 @@ export default {
         firstPassword: '',
         secondPassword: ''
       },
-      rules: {
-        username: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
-        ],
-        firstPassword: [
-          { required: true, message: '密码不能为空', trigger: 'blur' }
-        ],
-        secondPassword: [
-          { required: true, message: '确认密码不能为空', trigger: 'blur' }
-        ]
-      }
+      skipTime: 5,
+      dialogVisible: false,
+      timer: null
     };
   },
   methods: {
@@ -99,24 +116,39 @@ export default {
             changePassword(_this.passwordForm.firstPassword).then(data => {
               if (data.meta.status === 200) {
                 _this.active++;
-                _this.$message.success('密码修改成功');
+                _this.$message.success('密码修改成功,5秒后跳转到登录页');
               } else {
                 _this.$message.error('密码修改失败');
               }
             });
-            this.nextStepIsShow = false;
-            this.isShowBtns = false;
-            this.isShowResult = true;
-            if (this.active !== 1) {
+            _this.nextStepIsShow = false;
+            _this.isShowBtns = false;
+            _this.isShowResult = true;
+            if (_this.active !== 1) {
               this.backStepIsShow = true;
             }
+            _this.dialogVisible = true;
+            _this.backTimer();
           } else {
             return false;
           }
         });
       }
     },
-    backLogin () {
+    backTimer () {
+      const _this = this;
+      _this.timer = setInterval(() => {
+        _this.skipTime--;
+        console.log(_this.skipTime);
+        if (_this.skipTime === 0) {
+          _this.$router.push('/login');
+          clearInterval(_this.timer);
+        }
+      }, 1000);
+    },
+    skipLogin () {
+      clearInterval(this.timer);
+      this.dialogVisible = false;
       this.$router.push('/login');
     }
   }

@@ -32,8 +32,12 @@ import {
   TabPane,
   Tree,
   Steps,
-  Step
+  Step,
+  MessageBox,
+  Dialog
 } from 'element-ui';
+Vue.use(Dialog);
+Vue.prototype.$alert = MessageBox;
 Vue.use(Step);
 Vue.use(Steps);
 Vue.use(Tree);

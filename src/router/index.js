@@ -54,8 +54,13 @@ const router = new VueRouter({
   mode: 'history'
 });
 
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err);
+};
+
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') return next();
+  if (to.path === '/login' || to.path === '/backpassword') return next();
   const token = window.sessionStorage.getItem('token');
   if (!token) return next('/login');
   window.document.title = to.meta.title;

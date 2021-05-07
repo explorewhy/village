@@ -59,7 +59,7 @@
     </el-drawer>
 <!--底部版权-->
     <div class="copy-right">
-      <div> CopyRight © 2021 版权归河北工程大学地球科学与工程学院<strong>陈世聪</strong>所有</div>
+      <div> CopyRight © 2021 版权归河北工程大学地球科学与工程学院 <strong>地理信息科学专业</strong> 所有</div>
     </div>
   </div>
 </template>
@@ -103,8 +103,12 @@ export default {
   mounted () {
     const _this = this;
     initial().then(data => {
-      if (data.meta.status !== 200) {
-        _this.$message.error('数据库连接失败, 请联系管理员');
+      try {
+        if (data.meta.status !== 200) {
+          _this.$message.error('服务器连接失败, 请联系管理员');
+        }
+      } catch (e) {
+        _this.$message.error('服务器连接失败, 请联系管理员');
       }
     });
     getMasterInfo().then(data => {
@@ -137,13 +141,13 @@ export default {
       });
     },
     /**
-     * 重置表单
+     * 表单重置
      */
     loginFormReset () {
       this.$refs.loginFormRef.resetFields();
     },
     /**
-     * 找回密码
+     * 进入找回密码路由
      */
     backPassword () {
       this.$router.push('/backpassword');
@@ -165,6 +169,9 @@ export default {
         type: 'success'
       });
     },
+    /**
+     * 刷新界面
+     */
     refresh () {
       window.location.reload();
     }
