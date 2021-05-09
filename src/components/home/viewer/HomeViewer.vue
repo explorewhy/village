@@ -5,6 +5,16 @@
       <div class="jingdu">经度: <span id="longitude">114.000</span></div>
       <div class="weidu">纬度: <span id="latitude">36.0000</span></div>
     </div>
+    <div class="geoJsonSelector">
+      <el-select v-model="geoJsonType" placeholder="自定义" @change="geoJsonStyle">
+        <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
   </div>
 </template>
 
@@ -15,7 +25,16 @@
     name: 'CesiumViewer',
     data () {
       return {
-        viewer: {}
+        viewer: {},
+        options: [{
+          value: 'default',
+          label: '默认显示'
+        },{
+          value: 'custom',
+          label: '自定义显示'
+        }],
+        geoJsonType: '',
+        geoJsonData: null
       };
     },
     created () {
@@ -25,9 +44,11 @@
       const longitude = document.getElementById('longitude');
       // 初始化地图
       this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
-      this.addGeoJson();
+      // this.addDefaultGeoJson();
+      // this.addCustomGeoJson();
     },
     methods: {
+      // 获取经纬度坐标
       getCoordinates () {
         const that = this;
         const canvas = that.viewer.scene.canvas;
@@ -45,29 +66,52 @@
           }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
       },
-      addGeoJson() {
-        let res = Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/China.json'), {
+      // 添加默认geojson数据
+      async addDefaultGeoJson () {
+        let res = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/China.json'), {
           stroke: Cesium.Color.WHITE,
           fill: Cesium.Color.BLUE.withAlpha(0.3), //注意：颜色必须大写，即不能为blue
           strokeWidth: 5
         });
-        this.viewer.dataSources.add(res);
-        // let entities = res.entities.values;
-        // let colorHash = {};
-        // for (let i = 0; i < entities.length; i++) {
-        //   let entity = entities[i];
-        //   let name = entity.name;
-        //   let color = colorHash[name];
-        //   if (!color) {
-        //     color = Cesium.Color.fromRandom({
-        //       alpha: 1.0
-        //     });
-        //     colorHash[name] = color;
-        //   }
-        //   entity.polygon.material = color;
-        //   entity.polygon.outline = false;
-        //   entity.polygon.extrudedHeight = entity.properties.childrenNum * 5000; //高度扩大5000倍，便于观察
-        // }
+        await this.viewer.dataSources.add(res);
+      },
+      // 添加自定义geojson数据
+      async addCustomGeoJson () {
+        // Cesium.Math.setRandomNumberSeed(0);
+        const res = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/SiChuan.json'), {
+          stroke: Cesium.Color.WHITE,
+          fill: Cesium.Color.BLUE.withAlpha(0.3),
+          strokeWidth: 5
+        });
+        await this.viewer.dataSources.add(res);
+        var entities = res.entities.values;
+        var colorHash = {};
+        console.log(entities.length);
+        for (var i = 0; i < entities.length; i++) {
+          var entity = entities[i];
+          var name = entity.name;
+          var color = colorHash[name];
+          if (!color) {
+            color = Cesium.Color.fromRandom({
+              alpha: 1.0
+            });
+            colorHash[name] = color;
+          }
+          entity.polygon.material = color;
+          entity.polygon.outline = false;
+          entity.polygon.extrudedHeight = entity.properties.childrenNum * 5000;
+        }
+      },
+      // geoJson样式
+      geoJsonStyle () {
+        switch (this.geoJsonType) {
+          case 'default':
+            this.addDefaultGeoJson();
+            break;
+          case 'custom':
+            this.addCustomGeoJson();
+            break;
+        }
       }
     }
   };
@@ -105,4 +149,19 @@
       left: 20px;
     }
   }
+  .geoJsonSelector {
+    position: absolute;
+    right: 30px;
+    top: 100px;
+  }
+
+  /deep/ .el-select,
+  /deep/ .el-input,
+  /deep/ .el-input__inner{
+    background-color:#555c64 ;
+    color:#fff;
+    text-align: center;
+    height: 40px;
+  }
+
 </style>

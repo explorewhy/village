@@ -1,4 +1,10 @@
 /*eslint-disable*/
+
+/**
+ * 三角测量
+ * @param Cesium
+ * @param viewer
+ */
 function triangleMeasure(Cesium, viewer) {
   let trianArr=[];
   let distanceLineNum=0;
@@ -117,6 +123,15 @@ function triangleMeasure(Cesium, viewer) {
       });
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+}
+
+/**
+ * 卷帘
+ * @param Cesium
+ * @param viewer
+ */
+function rollerBlind (Cesium, viewer) {
+  const layers = viewer.imageryProvider;
 }
 
 const cesiumTools = {

@@ -66,7 +66,7 @@
         <span>其他工具</span>
       </template>
       <el-menu-item index="2-1">
-        <span>敬请期待</span>
+        <span>添加经纬度线</span>
       </el-menu-item>
     </el-submenu>
     </el-menu>

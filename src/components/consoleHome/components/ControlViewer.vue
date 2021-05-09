@@ -31,6 +31,8 @@ export default {
     // 初始化地图
     this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
     this.$store.commit('addControlViewer', { viewer: this.viewer });
+  },
+  methods: {
   }
 };
 </script>

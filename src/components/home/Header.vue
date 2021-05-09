@@ -16,7 +16,8 @@
           </el-dropdown>
           </div>
           <div class="cancellation">
-            <el-button type="primary" size="mini" @click="toConsoleHome">控制台</el-button>
+            <el-button v-if="showControlButton" type="primary" size="mini" @click="toConsoleHome">控制台</el-button>
+            <el-button v-if="!showControlButton" type="primary" size="mini" @click="toProfile">个人中心</el-button>
           </div>
       </div>
     </div>
@@ -28,9 +29,13 @@
 export default {
   data () {
     return {
+      showControlButton: false
     };
   },
   mounted () {
+    if (this.$store.state.roleType === 'SuperAdministrator') {
+      this.showControlButton = true;
+    }
   },
   methods: {
     toProfile () {

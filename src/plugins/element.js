@@ -34,8 +34,12 @@ import {
   Steps,
   Step,
   MessageBox,
-  Dialog
+  Dialog,
+  Select,
+  Option
 } from 'element-ui';
+Vue.use(Option);
+Vue.use(Select);
 Vue.use(Dialog);
 Vue.prototype.$alert = MessageBox;
 Vue.use(Step);
