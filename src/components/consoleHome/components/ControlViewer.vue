@@ -1,9 +1,11 @@
 <template>
   <div class="control-viewer">
     <div class="tool-bar">
-      <tool-bar :viewer="viewer"></tool-bar>
+      <tool-bar :toolBarData="toolBarData"></tool-bar>
     </div>
-    <div id="cesiumViewer"></div>
+    <div id="cesiumViewer">
+      <div id="slider"></div>
+    </div>
     <div class="latitude-longitude">
       <div class="jingdu">经度: <span id="longitude">114.000</span></div>
       <div class="weidu">纬度: <span id="latitude">36.0000</span></div>
@@ -22,15 +24,22 @@ export default {
   },
   data () {
     return {
-      viewer: {}
+      viewer: {},
+      toolBarData: {
+        slider: {}
+      }
     };
   },
+  created () {
+  },
   mounted () {
+    // 初始化地图
     const latitude = document.getElementById('latitude');
     const longitude = document.getElementById('longitude');
-    // 初始化地图
     this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
-    this.$store.commit('addControlViewer', { viewer: this.viewer });
+    this.toolBarData.slider = document.getElementById('slider');
+    const homeViewer = this.viewer;
+    this.$store.commit('addControlViewer', { homeViewer });
   },
   methods: {
   }
@@ -44,8 +53,21 @@ export default {
   }
 
   #cesiumViewer {
+    position: relative;
     width: 100%;
     height: 100%;
+    #slider {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      background-color: #D3D3D3;
+      width: 5px;
+      height: 100%;
+      z-index: 9999;
+    }
+    #slider:hover {
+      cursor: ew-resize;
+    }
   }
   .tool-bar{
     position: absolute;

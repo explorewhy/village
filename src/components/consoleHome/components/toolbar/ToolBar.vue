@@ -3,7 +3,8 @@
     <div :class="display==='vertical'?'btn-group-vertical':'btn-group-horizontal'"
          style="font-size: 0">
       <button type="button" title="双屏对比"
-              class="btn btn-sm btn-primary background-color-transparent">
+              class="btn btn-sm btn-primary background-color-transparent"
+              @click="rollerShutter">
         <img :src="require('../../../../assets/img/toolBar/doubleViewer.png')">
       </button>
       <button type="button" title="地球卷帘"
@@ -11,8 +12,7 @@
         <img :src="require('../../../../assets/img/toolBar/shutterView.png')">
       </button>
       <button type="button" title="三角量距" @click="triangleMeasure"
-              class="btn btn-sm btn-primary background-color-transparent"
-      >
+              class="btn btn-sm btn-primary background-color-transparent">
         <img :src="require('../../../../assets/img/toolBar/三角尺2.png')">
       </button>
       <button type="button" title="垂直距离"
@@ -61,10 +61,10 @@ import cesiumTools from '../../../../../static/cesiumTools';
 export default {
   name: 'ToolBar',
   props: {
-    viewer: {
+    toolBarData: {
       type: Object,
       default: function () {
-        return { name: '123' };
+        return { };
       }
     }
   },
@@ -73,12 +73,16 @@ export default {
       display: 'vertical'
     };
   },
-  mounted () {},
+  mounted () {
+    // eslint-disable-next-line no-undef
+  },
   methods: {
     triangleMeasure () {
-      // console.log(this.$store.state.controlViewer);
+    },
+    rollerShutter () {
+      console.log(213);
       // eslint-disable-next-line no-undef
-      cesiumTools.triangleMeasure(Cesium, this.$store.state.controlViewer);
+      cesiumTools.rollerBlind(Cesium, this.$store.state.controlViewer, this.toolBarData.slider);
     }
   }
 };
