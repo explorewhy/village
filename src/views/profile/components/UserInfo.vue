@@ -6,9 +6,9 @@
     <div>
       <el-form :model="accountInformationForm" :label-position="labelPosition" status-icon ref="accountInformationForm" label-width="85px"
                class="demo-accountInformationForm">
-        <el-form-item label="账号：">
+        <el-form-item label="角色：">
           <el-input
-              v-model="accountInformationForm.account"
+              v-model="accountInformationForm.role"
               :disabled="true"
           ></el-input>
         </el-form-item>
@@ -18,15 +18,9 @@
         <el-form-item label="性别：">
           <el-input v-model="accountInformationForm.sex" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="出生日期：">
+        <el-form-item label="电话">
           <el-input
-              v-model="accountInformationForm.birthday"
-              :disabled="true"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="身份证号：">
-          <el-input
-              v-model="accountInformationForm.idNumber"
+              v-model="accountInformationForm.phoneNumber"
               :disabled="true"
           ></el-input>
         </el-form-item>
@@ -36,19 +30,26 @@
 </template>
 
 <script>
+import { getUserInfo } from '../../../network/profile';
 export default {
   name: 'UserInfo',
+  mounted () {
+    getUserInfo().then(data => {
+      this.accountInformationForm = data.data;
+    });
+  },
   data () {
     return {
       labelPosition: 'left',
       accountInformationForm: {
-        account: '',
+        role: '',
         name: '',
         sex: '',
-        birthday: '',
-        idNumber: ''
+        phoneNumber: ''
       }
     };
+  },
+  methods: {
   }
 };
 </script>

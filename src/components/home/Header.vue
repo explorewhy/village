@@ -33,7 +33,7 @@ export default {
     };
   },
   mounted () {
-    if (this.$store.state.roleType === 'SuperAdministrator') {
+    if (window.sessionStorage.getItem('roleType') === 'SuperAdministrator') {
       this.showControlButton = true;
     }
   },

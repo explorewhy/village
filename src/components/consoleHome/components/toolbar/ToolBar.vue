@@ -2,13 +2,14 @@
   <div class="toolbar">
     <div :class="display==='vertical'?'btn-group-vertical':'btn-group-horizontal'"
          style="font-size: 0">
-      <button type="button" title="双屏对比"
+<!--      <button type="button" title="双屏对比"-->
+<!--              class="btn btn-sm btn-primary background-color-transparent"-->
+<!--              @click="rollerShutter">-->
+<!--        <img :src="require('../../../../assets/img/toolBar/doubleViewer.png')">-->
+<!--      </button>-->
+      <button type="button" title="地球卷帘"
               class="btn btn-sm btn-primary background-color-transparent"
               @click="rollerShutter">
-        <img :src="require('../../../../assets/img/toolBar/doubleViewer.png')">
-      </button>
-      <button type="button" title="地球卷帘"
-              class="btn btn-sm btn-primary background-color-transparent">
         <img :src="require('../../../../assets/img/toolBar/shutterView.png')">
       </button>
       <button type="button" title="三角量距" @click="triangleMeasure"
@@ -20,11 +21,13 @@
         <img :src="require('../../../../assets/img/toolBar/高度.png')">
       </button>
       <button type="button" title="空间距离"
-              class="btn btn-sm btn-primary background-color-transparent">
+              class="btn btn-sm btn-primary background-color-transparent"
+              @click="distanceMeasure">
         <img :src="require('../../../../assets/img/toolBar/长度.png')">
       </button>
       <button type="button" title="空间面积"
-              class="btn btn-sm btn-primary background-color-transparent">
+              class="btn btn-sm btn-primary background-color-transparent"
+              @click="areaMeasure">
         <img :src="require('../../../../assets/img/toolBar/面积.png')">
       </button>
       <button type="button" title="通视分析"
@@ -49,7 +52,8 @@
         <img :src="require('../../../../assets/img/toolBar/消除.png')">
       </button>
       <button type="button" title="屏幕截图"
-              class="btn btn-sm btn-primary background-color-transparent">
+              class="btn btn-sm btn-primary background-color-transparent"
+              @click="screenShots">
         <img :src="require('../../../../assets/img/toolBar/截图.png')">
       </button>
     </div>
@@ -57,17 +61,16 @@
 </template>
 
 <script>
-import cesiumTools from '../../../../../static/cesiumTools';
 export default {
   name: 'ToolBar',
-  props: {
-    toolBarData: {
-      type: Object,
-      default: function () {
-        return { };
-      }
-    }
-  },
+  // props: {
+  //   toolBarData: {
+  //     type: Object,
+  //     default: function () {
+  //       return { };
+  //     }
+  //   }
+  // },
   data () {
     return {
       display: 'vertical'
@@ -77,12 +80,25 @@ export default {
     // eslint-disable-next-line no-undef
   },
   methods: {
-    triangleMeasure () {
-    },
+    // 卷帘
     rollerShutter () {
-      console.log(213);
-      // eslint-disable-next-line no-undef
-      cesiumTools.rollerBlind(Cesium, this.$store.state.controlViewer, this.toolBarData.slider);
+      this.$emit('showRollerShutter');
+    },
+    // 三角测量
+    triangleMeasure () {
+      this.$emit('triangulation');
+    },
+    // 空间距离
+    distanceMeasure () {
+      this.$emit('distanceMeasurement');
+    },
+    // 空间面积
+    areaMeasure () {
+      this.$emit('areaMeasurement');
+    },
+    // 截屏
+    screenShots () {
+      this.$emit('screenShot');
     }
   }
 };

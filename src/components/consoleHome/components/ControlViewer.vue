@@ -1,10 +1,16 @@
 <template>
   <div class="control-viewer">
     <div class="tool-bar">
-      <tool-bar :toolBarData="toolBarData"></tool-bar>
+      <tool-bar :toolBarData="toolBarData"
+                @showRollerShutter="showRollerShutter"
+                @triangulation ='triangulation'
+                @areaMeasurement="areaMeasurement"
+                @distanceMeasurement = 'distanceMeasurement'
+                @screenShot="screenShot">
+      </tool-bar>
     </div>
     <div id="cesiumViewer">
-      <div id="slider"></div>
+      <div id="slider" class="slider" :class="{sliderOn: isActive}"></div>
     </div>
     <div class="latitude-longitude">
       <div class="jingdu">经度: <span id="longitude">114.000</span></div>
@@ -16,6 +22,7 @@
 <script>
 import { initMap } from '../../../2d-3d/cesium/3d-config';
 import ToolBar from './toolbar/ToolBar';
+import cesiumTools from '../../../../static/cesiumTools';
 
 export default {
   name: 'ControlViewer',
@@ -27,7 +34,9 @@ export default {
       viewer: {},
       toolBarData: {
         slider: {}
-      }
+      },
+      isActive: false,
+      rollerShutterTiles: null
     };
   },
   created () {
@@ -42,10 +51,48 @@ export default {
     this.$store.commit('addControlViewer', { homeViewer });
   },
   methods: {
+    // 卷帘
+    showRollerShutter () {
+      this.isActive = true;
+      // eslint-disable-next-line no-undef
+      this.rollerShutterTiles = cesiumTools.rollerBlind(Cesium, this.viewer, document.getElementById('slider'));
+    },
+    // 三角测量
+    triangulation () {
+      // eslint-disable-next-line no-undef
+      const measure = new Cesium.Measure(this.viewer);
+      measure._drawLayer.entities.removeAll();
+      this.isActive = false;
+      this.viewer.imageryLayers.remove(this.rollerShutterTiles);
+      measure.drawTrianglesMeasureGraphics({ callback: () => { } });
+    },
+    // 空间距离
+    distanceMeasurement () {
+      // eslint-disable-next-line no-undef
+      const measure = new Cesium.Measure(this.viewer);
+      const clampToGround = true;
+      measure.drawLineMeasureGraphics({ clampToGround: clampToGround, callback: () => { } });
+    },
+    // 空间面积
+    areaMeasurement () {
+      // eslint-disable-next-line no-undef
+      const measure = new Cesium.Measure(this.viewer);
+      const clampToGround = true;
+      measure.drawAreaMeasureGraphics({ clampToGround: clampToGround, callback: () => { } });
+    },
+    // 屏幕截图
+    screenShot () {
+      const myCanvas = this.viewer.scene.canvas;
+      const imgWidth = 800;
+      const myImg = this.$canvas2image.convertToImage(myCanvas, imgWidth, imgWidth * myCanvas.height / myCanvas.width, 'png');
+      const loading = document.createElement('a');
+      loading.href = myImg.src;
+      loading.download = 'earth';
+      loading.click();
+    }
   }
 };
 </script>
-
 <style lang="less" scoped>
   .control-viewer {
     width: 100%;
@@ -56,16 +103,19 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    #slider {
+    .slider {
       position: absolute;
       left: 50%;
       top: 0;
-      background-color: #D3D3D3;
-      width: 5px;
+      width: 0;
       height: 100%;
       z-index: 9999;
     }
-    #slider:hover {
+    .sliderOn {
+      background-color: #D3D3D3;
+      width: 5px;
+    }
+    .slider:hover {
       cursor: ew-resize;
     }
   }

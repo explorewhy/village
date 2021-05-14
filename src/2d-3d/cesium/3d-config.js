@@ -19,6 +19,7 @@ export function initMap (instance, id, latitude, longitude) {
     timeline: false, // 底部时间线
     fullscreenButton: false, // 全屏
     vrButton: false, // VR
+    selectionIndicator: false,
     imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
       // 天地图
       url: "http://t{s}.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk="+tiandituTk,
@@ -28,7 +29,19 @@ export function initMap (instance, id, latitude, longitude) {
       format: "image/jpeg",
       tileMatrixSetID: "GoogleMapsCompatible",//使用谷歌的瓦片切片方式
       show: true
-    })
+    }),
+    contextOptions: {
+      webgl:{
+        alpha: true,
+        depth:true,
+        stencil:true,
+        antialias:true,
+        premultipliedAlpha:true,
+        //通过canvas.toDataURL()实现截图需要将该项设置为true
+        preserveDrawingBuffer:true,
+        failIfMajorPerformanceCaveat:true
+      }
+    }
   });
   instance._cesiumWidget._creditContainer.style.display = 'none';
   instance.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({

@@ -19,7 +19,8 @@
 </template>
 
 <script>/* eslint-disable */
-  import { initMap } from '../../../2d-3d/cesium/3d-config';
+import { initMap } from '../../../2d-3d/cesium/3d-config';
+import cesiumTools from '../../../../static/cesiumTools'
 
   export default {
     name: 'CesiumViewer',
@@ -28,13 +29,13 @@
         viewer: {},
         options: [{
           value: 'default',
-          label: '默认显示'
+          label: '全国geoJson'
         },{
           value: 'custom',
-          label: '自定义显示'
+          label: '河北省geoJson'
         }],
         geoJsonType: '',
-        geoJsonData: null
+        geoJsonDataSource: null
       };
     },
     created () {
@@ -44,22 +45,23 @@
       const longitude = document.getElementById('longitude');
       // 初始化地图
       this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
+      cesiumTools.offsetByDistance(Cesium, this.viewer);
       // this.addDefaultGeoJson();
       // this.addCustomGeoJson();
     },
     methods: {
       // 获取经纬度坐标
       getCoordinates () {
-        const that = this;
-        const canvas = that.viewer.scene.canvas;
-        const ellipsoid = that.viewer.scene.globe.ellipsoid;
+        const _this = this;
+        const canvas = _this.viewer.scene.canvas;
+        const ellipsoid = _this.viewer.scene.globe.ellipsoid;
         const handler = new Cesium.ScreenSpaceEventHandler(canvas);
         handler.setInputAction(function (movement) {
           // 捕获椭球体，将笛卡尔二维坐标转为椭球体坐的笛卡尔三维坐标，返回球体表面的点
-          const cartesian = that.viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+          const cartesian = _this.viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
           if (cartesian) {
             // 将笛卡尔三维坐标转为底图坐标（弧度）
-            const cartographic = that.viewer.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
+            const cartographic = _this.viewer.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
             // 将地图坐标转为十进制
             document.getElementById('latitude').innerHTML = Cesium.Math.toDegrees(cartographic.latitude).toFixed(4);
             document.getElementById('longitude').innerHTML = Cesium.Math.toDegrees(cartographic.longitude).toFixed(4);
@@ -68,29 +70,30 @@
       },
       // 添加默认geojson数据
       async addDefaultGeoJson () {
-        let res = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/China.json'), {
+        const _this = this;
+        this.viewer.dataSources.remove(this.geoJsonDataSource);
+        this.geoJsonDataSource = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/China.json'), {
           stroke: Cesium.Color.WHITE,
           fill: Cesium.Color.BLUE.withAlpha(0.3), //注意：颜色必须大写，即不能为blue
           strokeWidth: 5
         });
-        await this.viewer.dataSources.add(res);
+        await this.viewer.dataSources.add(this.geoJsonDataSource);
       },
       // 添加自定义geojson数据
       async addCustomGeoJson () {
-        // Cesium.Math.setRandomNumberSeed(0);
-        const res = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/SiChuan.json'), {
+        this.viewer.dataSources.remove(this.geoJsonDataSource);
+        this.geoJsonDataSource = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/HeBei.json'), {
           stroke: Cesium.Color.WHITE,
           fill: Cesium.Color.BLUE.withAlpha(0.3),
           strokeWidth: 5
         });
-        await this.viewer.dataSources.add(res);
-        var entities = res.entities.values;
-        var colorHash = {};
-        console.log(entities.length);
-        for (var i = 0; i < entities.length; i++) {
-          var entity = entities[i];
-          var name = entity.name;
-          var color = colorHash[name];
+        await this.viewer.dataSources.add(this.geoJsonDataSource);
+        let entities = this.geoJsonDataSource.entities.values;
+        let colorHash = {};
+        for (let i = 0; i < entities.length; i++) {
+          let entity = entities[i];
+          let name = entity.name;
+          let color = colorHash[name];
           if (!color) {
             color = Cesium.Color.fromRandom({
               alpha: 1.0
@@ -99,7 +102,7 @@
           }
           entity.polygon.material = color;
           entity.polygon.outline = false;
-          entity.polygon.extrudedHeight = entity.properties.childrenNum * 5000;
+          entity.polygon.extrudedHeight = entity.properties.childrenNum * 1000;
         }
       },
       // geoJson样式

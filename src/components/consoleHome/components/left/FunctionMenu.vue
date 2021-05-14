@@ -11,10 +11,10 @@
           <i class="el-icon-picture-outline-round"></i>
           <span>地图工具</span>
         </template>
-        <el-menu-item index="1-1">
-          <img :src="require('../../../../assets/img/toolBar/doubleViewer.png')">
-          <span>双屏对比</span>
-        </el-menu-item>
+<!--        <el-menu-item index="1-1">-->
+<!--          <img :src="require('../../../../assets/img/toolBar/doubleViewer.png')">-->
+<!--          <span>双屏对比</span>-->
+<!--        </el-menu-item>-->
         <el-menu-item index="1-2">
           <img :src="require('../../../../assets/img/toolBar/shutterView.png')">
           <span>地球卷帘</span>
