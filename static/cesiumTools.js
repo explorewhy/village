@@ -65,10 +65,82 @@ function triangleMeasure(Cesium, viewer) {
 
 }
 
+// 显示经纬度线
+ function showLatLongLine (Cesium, viewer) {
+  const latLongLine = {};
+   latLongLine.lang = [];
+   //经度
+   let langS = [];
+   //每隔20° 画一条线
+   for (let lang= -180; lang <= 180; lang += 10) {
+     let text = "西经";
+     if (lang< 0) {
+       text = "东经";
+     } else if (lang=== 0) {
+       text = "本初子午线";
+     }
+     text += lang===0?"":"" + lang+ "°";
+     //绘制经度
+     latLongLine.lang.push(viewer.entities.add({
+       position: Cesium.Cartesian3.fromDegrees(lang,0),
+       polyline: {
+         positions: Cesium.Cartesian3.fromDegreesArray([lang, -90, lang, 0, lang, 90]),//为了绕一圈地球中间加了一个赤道点
+         width: 1.0,
+         material: Cesium.Color.fromBytes(66, 147, 254, 255 * 0.8),//好看的颜色
+       } ,label: {//标注经度
+         text: text,
+         verticalOrigin:Cesium.VerticalOrigin.TOP,
+         font: '16px Helvetica',
+         fillColor: Cesium.Color.GOLD,
+         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+         outlineWidth: 1,
+         outlineColor: Cesium.Color.BLACK,
+         pixelOffset: new Cesium.Cartesian3(0, -50, -2000)//像素为单位的位置偏移实际上笛卡尔3的z值无效，因为他只支持笛卡尔2
+       },
+     }));
+   }
+
+   for (let lang= -180; lang<= 180; lang+= 5) {
+     langS.push(lang);
+   }
+   //每隔10读绘制一条纬度线和纬度标注
+   for (let lat= -80; lat<= 80; lat+= 10) {
+     let text = "北纬";
+     if (lat< 0) {
+       text = "南纬";
+     } else if (lat=== 0) {
+       text = "赤道";
+     }
+     text += "" + lat+ "°";
+     latLongLine.lat = [];
+     latLongLine.lat.push(viewer.entities.add({
+         position: Cesium.Cartesian3.fromDegrees(0,lat),//这个主要是为了让文字可以显示到正确的位置
+         polyline: {
+           positions: Cesium.Cartesian3.fromDegreesArray(langS.map(long=> {
+             return [long,lat].join(",")
+           }).join(",").split(",").map(item => Number(item))),//把经度和纬度拼为二维数组，然后在转换为字符串分割，然后在转换为一维数组，然后转数组
+           width: 1.0,
+           material: Cesium.Color.BLUE,
+         },
+         label: {//标注
+           text: text,
+           font: '16px Helvetica' ,
+           fillColor: Cesium.Color.GOLD,
+           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+           outlineWidth: 1,
+           outlineColor: Cesium.Color.BLACK,
+           pixelOffset: new Cesium.Cartesian3(0, -5, -2000)
+         },
+       })
+     )
+   }
+ }
+
 const cesiumTools = {
   offsetByDistance,
   triangleMeasure,
-  rollerBlind
+  rollerBlind,
+  showLatLongLine
 };
 
 export default cesiumTools;

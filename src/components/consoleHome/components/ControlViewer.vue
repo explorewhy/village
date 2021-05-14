@@ -6,7 +6,8 @@
                 @triangulation ='triangulation'
                 @areaMeasurement="areaMeasurement"
                 @distanceMeasurement = 'distanceMeasurement'
-                @screenShot="screenShot">
+                @screenShot="screenShot"
+                @showLatLog="showLatLog">
       </tool-bar>
     </div>
     <div id="cesiumViewer">
@@ -87,8 +88,13 @@ export default {
       const myImg = this.$canvas2image.convertToImage(myCanvas, imgWidth, imgWidth * myCanvas.height / myCanvas.width, 'png');
       const loading = document.createElement('a');
       loading.href = myImg.src;
-      loading.download = 'earth';
+      loading.download = '智慧农村截图';
       loading.click();
+    },
+    // 显示经纬度
+    showLatLog () {
+      // eslint-disable-next-line no-undef
+      cesiumTools.showLatLongLine(Cesium, this.viewer);
     }
   }
 };

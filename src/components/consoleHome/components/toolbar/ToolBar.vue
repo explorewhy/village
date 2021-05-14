@@ -56,6 +56,11 @@
               @click="screenShots">
         <img :src="require('../../../../assets/img/toolBar/截图.png')">
       </button>
+      <button type="button" title="显示经纬度"
+              class="btn btn-sm btn-primary background-color-transparent"
+              @click="latLog">
+        <img :src="require('../../../../assets/img/toolBar/截图.png')">
+      </button>
     </div>
   </div>
 </template>
@@ -99,6 +104,10 @@ export default {
     // 截屏
     screenShots () {
       this.$emit('screenShot');
+    },
+    // 显示经纬度
+    latLog () {
+      this.$emit('showLatLog');
     }
   }
 };
