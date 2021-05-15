@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getWaterSource } from '../../../network/echarts';
 
 export default {
   name: 'hello',
@@ -12,8 +13,11 @@ export default {
     return {};
   },
   created () {
-    this.$nextTick(() => {
-      this.drawLine();
+    const _this = this;
+    _this.$nextTick(() => {
+      getWaterSource().then(data => {
+        _this.drawLine(data.data);
+      });
     });
   },
 
@@ -24,7 +28,7 @@ export default {
     });
   },
   methods: {
-    drawLine () {
+    drawLine (data) {
       const that = this;
       // 基于准备好的dom，初始化echarts实例
       const myChart = this.$echarts.init(document.getElementById('myChart'));
@@ -51,27 +55,7 @@ export default {
           }
         },
         dataset: {
-          source: [
-            ['product', '地下水资源量', '水资源总量'],
-            ['郑州市', 5.29, 6.64],
-            ['开封市', 7.07, 7.89],
-            ['洛阳市', 9.36, 15.93],
-            ['平顶山市', 5.21, 7.91],
-            ['安阳市', 5.17, 6.64],
-            ['鹤壁市', 1.62, 1.76],
-            ['新乡市', 7.97, 6.84],
-            ['焦作市', 3.74, 5.15],
-            ['濮阳市', 4.74, 2.83],
-            ['许昌市', 4.02, 5.38],
-            ['漯河市', 3.30, 3.87],
-            ['三门峡市', 6.94, 10.52],
-            ['南阳市', 14.71, 21.54],
-            ['商丘市', 5.38, 10.04],
-            ['信阳市', 14.31, 28.06],
-            ['周口市', 9.04, 12.30],
-            ['驻马店市', 9.85, 13.20],
-            ['济源市', 1.75, 2.42]
-          ]
+          source: data
         },
         toolbox: {
           show: true,

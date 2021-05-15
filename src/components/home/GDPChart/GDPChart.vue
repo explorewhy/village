@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getGDP } from '../../../network/echarts';
 
 export default {
   name: 'weatherCon',
@@ -12,8 +13,11 @@ export default {
     return {};
   },
   created () {
-    this.$nextTick(() => {
-      this.drawLine();
+    const _this = this;
+    _this.$nextTick(() => {
+      getGDP().then(data => {
+        _this.drawLine(data.data);
+      });
     });
   },
 
@@ -24,7 +28,7 @@ export default {
     });
   },
   methods: {
-    drawLine () {
+    drawLine (data) {
       const that = this;
       // 基于准备好的dom，初始化echarts实例
       const myChart1 = this.$echarts.init(document.getElementById('myChart1'));
@@ -109,7 +113,7 @@ export default {
         },
         yAxis: {
           type: 'category',
-          data: ['郑州', '南阳', '开封', '洛阳', '安阳', '商丘', '许昌', '新乡', '焦作', '周口', '信阳', '平顶山', '三门峡', '驻马店', '濮阳', '漯河', '鹤壁', '济源'],
+          data: data.city,
           axisLabel: {
             textStyle: {
               color: '#fff'
@@ -125,7 +129,7 @@ export default {
               show: true,
               position: 'insideRight'
             },
-            data: [10143, 3566, 2002, 4640, 2393, 2389, 2860, 2526, 2371, 2687, 2387, 2135, 1628, 2370, 1664, 1236, 861, 630]
+            data: data.series
           },
           {
             name: '2019年GDP',

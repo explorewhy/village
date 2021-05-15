@@ -6,8 +6,7 @@
                 @triangulation ='triangulation'
                 @areaMeasurement="areaMeasurement"
                 @distanceMeasurement = 'distanceMeasurement'
-                @screenShot="screenShot"
-                @showLatLog="showLatLog">
+                @screenShot="screenShot">
       </tool-bar>
     </div>
     <div id="cesiumViewer">
@@ -22,7 +21,9 @@
 
 <script>
 import { initMap } from '../../../2d-3d/cesium/3d-config';
+
 import ToolBar from './toolbar/ToolBar';
+
 import cesiumTools from '../../../../static/cesiumTools';
 
 export default {
@@ -90,11 +91,17 @@ export default {
       loading.href = myImg.src;
       loading.download = '智慧农村截图';
       loading.click();
-    },
+    }
+  },
+  watch: {
     // 显示经纬度
-    showLatLog () {
-      // eslint-disable-next-line no-undef
-      cesiumTools.showLatLongLine(Cesium, this.viewer);
+    '$store.state.showJWD' (val, oldVal) {
+      if (this.$store.state.showJWD) {
+        // eslint-disable-next-line no-undef
+        cesiumTools.showLatLongLine(Cesium, this.viewer);
+      } else {
+        this.viewer.entities.removeAll();
+      }
     }
   }
 };

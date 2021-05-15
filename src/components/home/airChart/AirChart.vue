@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getAirData } from '../../../network/echarts';
 
 export default {
   name: 'hello',
@@ -12,8 +13,11 @@ export default {
     return {};
   },
   created () {
-    this.$nextTick(() => {
-      this.drawLine();
+    const _this = this;
+    _this.$nextTick(() => {
+      getAirData().then(data => {
+        _this.drawLine(data.data);
+      });
     });
   },
 
@@ -24,7 +28,7 @@ export default {
     });
   },
   methods: {
-    drawLine () {
+    drawLine (data) {
       const that = this;
       // 基于准备好的dom，初始化echarts实例
       const myChart = this.$echarts.init(document.getElementById('myChart2'));
@@ -69,12 +73,7 @@ export default {
           }
         },
         dataset: {
-          source: [
-            ['product', '周口市', '三门峡市', '洛阳市', '商丘市', '驻马店市', '南阳市', '信阳市', '许昌市', '郑州市', '漯河市', '新乡市', '开封市', '濮阳市', '安阳市', '济源示范区', '平顶山市', '焦作市', '鹤壁市'],
-            ['综合指数', 4.509, 4.060, 4.884, 5.035, 4.557, 4.561, 4.066, 5.084, 5.253, 5.100, 5.758, 5.312, 5.450, 6.076, 5.405, 5.473, 5.908, 5.804],
-            ['综合指数同比变化率', 4.4, 7.8, -3.1, 6.6, 8.9, 12.5, 13.7, 13.3, 16.0, 17.3, 15.6, 19.4, 18.2, 16.7, 22.6, 21.6, 22.6, 22.8],
-            ['分数', 2.4, 2.8, 3.0, 4.6, 4.6, 5.6, 5.6, 7.4, 10.0, 10.8, 11.4, 12.8, 13.0, 13.8, 14.4, 14.6, 16.4, 17.2]
-          ]
+          source: data
         },
         // visualMap:{
         //   orient:'horizontal',

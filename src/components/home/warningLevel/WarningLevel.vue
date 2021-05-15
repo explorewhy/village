@@ -5,13 +5,18 @@
 </template>
 
 <script>
+import { getWarningLevel } from '../../../network/echarts';
+
 export default {
   data () {
     return {};
   },
   created () {
-    this.$nextTick(() => {
-      this.drawLine();
+    const _this = this;
+    _this.$nextTick(() => {
+      getWarningLevel().then(data => {
+        _this.drawLine(data.data);
+      });
     });
   },
   mounted () {
@@ -21,7 +26,7 @@ export default {
     });
   },
   methods: {
-    drawLine () {
+    drawLine (data) {
       // let that = this;
       // 基于准备好的dom，初始化echarts实例
       const myChart = this.$echarts.init(document.getElementById('myChart10'));
@@ -51,11 +56,7 @@ export default {
             labelLine: {
               show: false
             },
-            data: [
-              { value: 1, name: '超载' },
-              { value: 14, name: '未超载' },
-              { value: 3, name: '临界超载' }
-            ]
+            data: data
           }
         ]
       });

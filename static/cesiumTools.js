@@ -1,5 +1,4 @@
 /*eslint-disable*/
-
 function offsetByDistance (Cesium, viewer) {
   const entity = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(110,40,1000),
@@ -71,7 +70,7 @@ function triangleMeasure(Cesium, viewer) {
    latLongLine.lang = [];
    //经度
    let langS = [];
-   //每隔20° 画一条线
+   //每隔10° 画一条线
    for (let lang= -180; lang <= 180; lang += 10) {
      let text = "西经";
      if (lang< 0) {

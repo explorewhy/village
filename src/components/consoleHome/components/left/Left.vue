@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="功能列表" name="first"><function-menu></function-menu></el-tab-pane>
       <el-tab-pane label="地图操作" name="second"><map-menu></map-menu></el-tab-pane>
-      <el-tab-pane label="数据管理" name="third"><data-menu></data-menu></el-tab-pane>
+      <el-tab-pane label="数据漫游" name="third"><data-menu></data-menu></el-tab-pane>
       <el-tab-pane label="其他功能" name="fourth"></el-tab-pane>
     </el-tabs>
   </div>

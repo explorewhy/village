@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getPopulationData } from '../../../network/echarts';
 
 export default {
   name: 'hello',
@@ -15,21 +16,23 @@ export default {
     };
   },
   created () {
+    const _this = this;
+    _this.$nextTick(() => {
+      getPopulationData().then(data => {
+        _this.drawLine3(data.data);
+      });
+    });
   },
 
   mounted () {
-    this.drawLine3();
     const myChart = this.$echarts.init(document.getElementById('myChart3'));
-
     window.addEventListener('resize', function () {
       myChart.resize();
     });
   },
   methods: {
-    drawLine3: function () {
+    drawLine3: function (data) {
       const that = this;
-      // console.log('MAX', this.MAX)
-      // console.log('MIN', this.MIN)
       // 基于准备好的dom，初始化echarts实例
       const myChart = this.$echarts.init(document.getElementById('myChart3'));
       let option = {};
@@ -81,26 +84,7 @@ export default {
             type: 'pie',
             radius: '70%',
             center: ['50%', '50%'],
-            data: [
-              { value: 1002.12, name: '南阳市' },
-              { value: 956.90, name: '郑州市' },
-              { value: 880.92, name: '周口市' },
-              { value: 727.39, name: '商丘市' },
-              { value: 695.55, name: '驻马店市' },
-              { value: 674.30, name: '洛阳市' },
-              { value: 640.00, name: '信阳市' },
-              { value: 572.10, name: '新乡市' },
-              { value: 511.70, name: '安阳市' },
-              { value: 496.00, name: '平顶山市' },
-              { value: 454.26, name: '开封市' },
-              { value: 434.15, name: '许昌市' },
-              { value: 361.00, name: '濮阳市' },
-              { value: 353.40, name: '焦作市' },
-              { value: 262.50, name: '漯河市' },
-              { value: 224.65, name: '三门峡市' },
-              { value: 160.60, name: '鹤壁市' },
-              { value: 72.90, name: '济源市' }
-            ].sort(function (a, b) {
+            data: data.sort(function (a, b) {
               return a.value - b.value;
             }),
             roseType: 'radius',

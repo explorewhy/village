@@ -66,7 +66,7 @@
         <span>其他工具</span>
       </template>
       <el-menu-item index="2-1">
-        <span>添加经纬度线</span>
+        <span @click="showLatLog">添加经纬度线</span>
       </el-menu-item>
     </el-submenu>
     </el-menu>
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'FunctionMenu',
   mounted () {
@@ -82,6 +83,9 @@ export default {
     return {};
   },
   methods: {
+    showLatLog () {
+      this.$store.commit('addJWD');
+    }
   }
 };
 </script>

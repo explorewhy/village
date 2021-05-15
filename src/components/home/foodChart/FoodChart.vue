@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getGrainProduction } from '../../../network/echarts';
 
 export default {
   name: 'hello',
@@ -15,7 +16,12 @@ export default {
     };
   },
   created () {
-    // this.dataMj();
+    const _this = this;
+    _this.$nextTick(() => {
+      getGrainProduction().then(data => {
+        this.drawLine7(data.data);
+      });
+    });
   },
 
   mounted () {
@@ -23,10 +29,9 @@ export default {
     window.addEventListener('resize', function () {
       myChart.resize();
     });
-    this.drawLine7();
   },
   methods: {
-    drawLine7 () {
+    drawLine7 (data) {
       const that = this;
       // 基于准备好的dom，初始化echarts实例
       const myChart = this.$echarts.init(document.getElementById('myChart7'));
@@ -88,7 +93,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['周口', '商丘', '南阳', '驻马店', '信阳', '新乡', '安阳', '开封', '许昌', '濮阳', '洛阳', '平顶山', '焦作', '漯河', '郑州', '鹤壁', '三门峡', '济源'],
+          data: data.city,
           axisLabel: {
             show: true,
             textStyle: {
@@ -107,7 +112,7 @@ export default {
           }
         },
         series: [{
-          data: [901.9, 723.9, 700.84, 697, 568.3, 467.6, 375.2, 301.13, 297.95, 287.1, 250.54, 227.4, 206.28, 181.5, 157.3, 118.6, 71.98, 23.19],
+          data: data.series,
           type: 'bar',
           showBackground: true,
           backgroundStyle: {

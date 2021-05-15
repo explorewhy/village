@@ -4,7 +4,7 @@
       <Header></Header>
     </div>
     <div class="console-aside"><Left></Left></div>
-    <div class="console-main"><ControlViewer></ControlViewer></div>
+    <div class="console-main"><ControlViewer ref="controlViewer"></ControlViewer></div>
   </div>
 </template>
 

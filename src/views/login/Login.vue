@@ -128,7 +128,6 @@ export default {
     userLogin () {
       const _this = this;
       login(_this.formInfo.username, _this.formInfo.password).then(data => {
-        console.log(data);
         if (data.meta.status === 200) {
           _this.$message.success('登陆成功');
           window.sessionStorage.setItem('token', data.data.token);
