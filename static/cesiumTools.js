@@ -56,16 +56,11 @@ function rollerBlind (Cesium, viewer, slider) {
 }
 
 /**
- * 三角测量
+ * 显示经纬度
  * @param Cesium
  * @param viewer
  */
-function triangleMeasure(Cesium, viewer) {
-
-}
-
-// 显示经纬度线
- function showLatLongLine (Cesium, viewer) {
+function showLatLongLine (Cesium, viewer) {
   const latLongLine = {};
    latLongLine.lang = [];
    //经度
@@ -135,11 +130,147 @@ function triangleMeasure(Cesium, viewer) {
    }
  }
 
+/**
+ * 地下管线
+ * @param Cesium
+ * @param viewer
+ */
+function downPipeline (Cesium, viewer, element) {
+  const scene = viewer.scene;
+  scene.screenSpaceCameraController.enableCollisionDetection = false;
+  let longitude = -3.82518;
+  let latitude = 53.11728;
+  let height = 72.8;
+  let position = Cesium.Cartesian3.fromDegrees(
+    longitude,
+    latitude,
+    height
+  );
+  // let url = require('../static/source/downLine.glb')
+  // viewer.entities.add({
+  //   name: url,
+  //   position: position,
+  //   model: {
+  //     uri: url,
+  //   },
+  // });
+
+  viewer.scene.camera.flyTo({
+    destination: new Cesium.Cartesian3(
+      3827270.552916987,
+      -255123.18143177085,
+      5079147.091351856
+    ),
+    orientation: new Cesium.HeadingPitchRoll(
+      3.2624281242239963,
+      -0.22213535190506972,
+      6.282786783842843
+    ),
+    duration: 5.0,
+  });
+
+}
+
+/**
+ * 天地图矢量
+ * @param Cesium
+ * @param viewer
+ */
+function tianDiVector (Cesium, viewer, key) {
+  viewer.imageryLayers.removeAll();
+  viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+    url: "http://t0.tianditu.com/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=" + key,
+    layer: "tdtAnnoLayer",
+    style: "default",
+    format: "tiles",
+    tileMatrixSetID: "GoogleMapsCompatible",
+    show: true
+  }));
+  viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+    url:
+      "http://t0.tianditu.com/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=" + key,
+    layer: "tdtAnnoLayer",
+    style: "default",
+    format: "tiles",
+    tileMatrixSetID: "GoogleMapsCompatible",
+    show: true
+  }));
+}
+
+/**
+ * 天地图影像
+ * @param Cesium
+ * @param viewer
+ */
+function tianDiImage (Cesium, viewer, key) {
+  // viewer.imageryLayers.removeAll();
+  const subdomains = ['0','1','2','3','4','5','6','7'];
+  viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+    url: "http://t{s}.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=" + key,
+    subdomains: subdomains,
+    layer: "tdtCiaLayer",
+    style: "default",
+    format: "image/jpeg",
+    tileMatrixSetID: "GoogleMapsCompatible",
+    show: true
+  }));
+  viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+    url: "http://t{s}.tianditu.com/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=" + key,
+    subdomains: subdomains,
+    layer: "tdtCiaLayer",
+    style: "default",
+    format: "image/jpeg",
+    tileMatrixSetID: "GoogleMapsCompatible",
+    show: true
+  }));
+}
+
+/**
+ * 天地图地形
+ * @param Cesium
+ * @param viewer
+ */
+function tianDiTerrain (Cesium, viewer) {
+
+}
+
+/**
+ * ArcGIS矢量
+ * @param Cesium
+ * @param viewer
+ */
+function arcGISVector (Cesium, viewer) {
+
+}
+
+/**
+ * ArcGIS影像
+ * @param Cesium
+ * @param viewer
+ */
+function arcGISImage (Cesium, viewer) {
+
+}
+
+/**
+ * ArcGIS地形
+ * @param Cesium
+ * @param viewer
+ */
+function arcGISTerrain (Cesium, viewer) {
+
+}
+
 const cesiumTools = {
-  offsetByDistance,
-  triangleMeasure,
+  downPipeline,
   rollerBlind,
-  showLatLongLine
+  showLatLongLine,
+  tianDiVector,
+  tianDiImage,
+  tianDiTerrain,
+  arcGISVector,
+  arcGISImage,
+  arcGISTerrain
 };
 
 export default cesiumTools;

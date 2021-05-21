@@ -3,8 +3,6 @@
     <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b">
@@ -17,9 +15,9 @@
         <template slot="title">
           <span>天地图</span>
         </template>
-          <el-menu-item index="1-1-1">矢量底图</el-menu-item>
-          <el-menu-item index="1-1-2">影像底图</el-menu-item>
-          <el-menu-item index="1-1-2">三维地形</el-menu-item>
+          <el-menu-item index="1-1-1" @click="addTianDiTuVector">矢量底图</el-menu-item>
+          <el-menu-item index="1-1-2" @click="addTianDiTuImage">影像底图</el-menu-item>
+          <el-menu-item index="1-1-3">三维地形</el-menu-item>
         </el-submenu>
         <el-submenu index="1-2" disabled>
           <template slot="title">
@@ -33,14 +31,8 @@
           </template>
           <el-menu-item index="1-3-1">矢量底图</el-menu-item>
           <el-menu-item index="1-3-2">影像底图</el-menu-item>
-          <el-menu-item index="1-3-2">三维地形</el-menu-item>
+          <el-menu-item index="1-3-3">三维地形</el-menu-item>
         </el-submenu>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>设置中心点</span>
-        </template>
       </el-submenu>
     </el-menu>
   </div>
@@ -53,8 +45,12 @@ export default {
     return {};
   },
   methods: {
-    handleOpen () {},
-    handleClose () {}
+    addTianDiTuVector () {
+      this.$store.state.isAddTianDiTuVector = !this.$store.state.isAddTianDiTuVector;
+    },
+    addTianDiTuImage () {
+      this.$store.state.isAddTianDiTuImage = !this.$store.state.isAddTianDiTuImage;
+    }
   }
 };
 </script>

@@ -28,6 +28,7 @@ export function initMap (instance, id, latitude, longitude) {
       style: "default",
       format: "image/jpeg",
       tileMatrixSetID: "GoogleMapsCompatible",//使用谷歌的瓦片切片方式
+      maximumLevel : 18,
       show: true
     }),
     contextOptions: {

@@ -31,8 +31,11 @@ import cesiumTools from '../../../../static/cesiumTools'
           value: 'default',
           label: '全国geoJson'
         },{
-          value: 'custom',
+          value: 'hebei',
           label: '河北省geoJson'
+        },{
+          value: 'yanggu',
+          label: '阳谷县geoJson'
         }],
         geoJsonType: '',
         geoJsonDataSource: null
@@ -45,9 +48,7 @@ import cesiumTools from '../../../../static/cesiumTools'
       const longitude = document.getElementById('longitude');
       // 初始化地图
       this.viewer = initMap(this.viewer, 'cesiumViewer', latitude, longitude);
-      cesiumTools.offsetByDistance(Cesium, this.viewer);
-      // this.addDefaultGeoJson();
-      // this.addCustomGeoJson();
+      // cesiumTools.offsetByDistance(Cesium, this.viewer);
     },
     methods: {
       // 获取经纬度坐标
@@ -105,15 +106,48 @@ import cesiumTools from '../../../../static/cesiumTools'
           entity.polygon.extrudedHeight = entity.properties.childrenNum * 1000;
         }
       },
+      async addYangGuGeoJson () {
+        this.viewer.dataSources.remove(this.geoJsonDataSource);
+        this.geoJsonDataSource = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/yanggu.json'), {
+          stroke: Cesium.Color.WHITE,
+          fill: Cesium.Color.BLUE.withAlpha(0.3), //注意：颜色必须大写，即不能为blue
+          strokeWidth: 5
+        });
+        await this.viewer.dataSources.add(this.geoJsonDataSource);
+
+        let villageTiles = new Cesium.Cesium3DTileset ({
+          // url: 'http://localhost:5000/village/tileset.json'
+          url: require('../../../../static/source/tileset.json')
+        });
+
+        this.viewer.scene.primitives.add(villageTiles);
+        let long = 115.8644;
+        let lat = 36.1550;
+        let height = 60000;
+        let heading = 2;
+        villageTiles.readyPromise.then(function(argument) {
+          //经纬度、高转笛卡尔坐标
+          let position = Cesium.Cartesian3.fromDegrees(long, lat, height);
+          let mat = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+          let rotationX = Cesium.Matrix4.fromRotationTranslation(Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(heading)));
+          Cesium.Matrix4.multiply(mat, rotationX, mat);
+          villageTiles._root.transform = mat;
+        });
+
+        this.viewer.camera.flyTo({
+          destination : Cesium.Cartesian3.fromDegrees(115.8644, 36.1550, 60000),
+          orientation: {
+          }
+        });
+      },
       // geoJson样式
       geoJsonStyle () {
-        switch (this.geoJsonType) {
-          case 'default':
-            this.addDefaultGeoJson();
-            break;
-          case 'custom':
-            this.addCustomGeoJson();
-            break;
+        if (this.geoJsonType === 'default') {
+          this.addDefaultGeoJson();
+        } else if (this.geoJsonType === 'hebei') {
+          this.addCustomGeoJson();
+        } else {
+          this.addYangGuGeoJson();
         }
       }
     }

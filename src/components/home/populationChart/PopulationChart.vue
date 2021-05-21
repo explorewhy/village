@@ -20,6 +20,7 @@ export default {
     _this.$nextTick(() => {
       getPopulationData().then(data => {
         _this.drawLine3(data.data);
+        _this.$store.commit('addPopulationData', data.data);
       });
     });
   },
@@ -59,7 +60,7 @@ export default {
           feature: {
             myTool1: { // 必须要my开头
               show: true,
-              title: '显示到地图',
+              title: '详情分析',
               iconStyle: {
                 borderColor: '#ffffff'
               },
@@ -72,7 +73,7 @@ export default {
               3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,
               421.146,591.891L421.146,591.891zM421.146,591.891`,
               onclick: function () {
-                that.$emit('farmViewer_peo');
+                that.$router.push('/populationDataStatistics');
               }
             }
           }

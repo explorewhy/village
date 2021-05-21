@@ -68,6 +68,12 @@
       <el-menu-item index="2-1">
         <span @click="showLatLog">添加经纬度线</span>
       </el-menu-item>
+      <el-menu-item index="2-2" disabled>
+        <span @click="addDownLine">添加地下管线</span>
+      </el-menu-item>
+      <el-menu-item index="2-3" disabled>
+        <span @click="addDownLine">设置地图中心点</span>
+      </el-menu-item>
     </el-submenu>
     </el-menu>
   </div>
@@ -85,6 +91,9 @@ export default {
   methods: {
     showLatLog () {
       this.$store.commit('addJWD');
+    },
+    addDownLine () {
+      this.$store.commit('addDownLines');
     }
   }
 };

@@ -17,6 +17,7 @@ export default {
     _this.$nextTick(() => {
       getGDP().then(data => {
         _this.drawLine(data.data);
+        _this.$store.commit('addGDPChartData', data.data);
       });
     });
   },
@@ -85,7 +86,7 @@ export default {
           feature: {
             myTool1: { // 必须要my开头
               show: true,
-              title: '显示到地图',
+              title: '详情分析',
               iconStyle: {
                 borderColor: '#ffffff'
               },
@@ -98,7 +99,7 @@ export default {
               3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,
               421.146,591.891L421.146,591.891zM421.146,591.891`,
               onclick: function () {
-                that.$emit('farmViewer_gdp');
+                that.$router.push('/gdpDataStatistics');
               }
             }
           }
@@ -129,7 +130,7 @@ export default {
               show: true,
               position: 'insideRight'
             },
-            data: data.series
+            data: data.series1
           },
           {
             name: '2019年GDP',
@@ -139,7 +140,7 @@ export default {
               show: true,
               position: 'insideRight'
             },
-            data: [11590, 3815, 2364, 5035, 2229.3, 2911, 3396, 2918.18, 2761, 3198, 2758, 2373, 1444, 2742, 1581, 1578, 988, 686]
+            data: data.series2
           }
         ]
       });

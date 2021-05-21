@@ -16,14 +16,14 @@ const routes = [
     meta: { title: '智慧农村三维平台' }
   },
   {
-    path: '/backPassword',
-    meta: { title: '找回密码' },
-    component: () => import('../views/backPassword/BackPassword')
-  },
-  {
     path: '/login',
     meta: { title: '智慧农村三维平台' },
     component: () => import('../views/login/Login')
+  },
+  {
+    path: '/backPassword',
+    meta: { title: '找回密码' },
+    component: () => import('../views/backPassword/BackPassword')
   },
   {
     path: '/profile',
@@ -41,6 +41,31 @@ const routes = [
         component: () => import('../views/profile/components/ChangePassword')
       }
     ]
+  },
+  {
+    path: '/airQualityStatistics',
+    meta: { title: '空气质量检测' },
+    component: () => import('../views/statistical/AirQualityStatistics')
+  },
+  {
+    path: '/waterSourceStatistics',
+    meta: { title: '水资源质量检测' },
+    component: () => import('../views/statistical/WaterStatistics')
+  },
+  {
+    path: '/foodDataSourceStatistics',
+    meta: { title: '粮食产量分析' },
+    component: () => import('../views/statistical/FootStatistics')
+  },
+  {
+    path: '/gdpDataStatistics',
+    meta: { title: 'GDP产量分析' },
+    component: () => import('../views/statistical/GDPChartStatistics')
+  },
+  {
+    path: '/populationDataStatistics',
+    meta: { title: '人口数据分析' },
+    component: () => import('../views/statistical/PopulationStatistics')
   },
   {
     path: '/consoleHome',

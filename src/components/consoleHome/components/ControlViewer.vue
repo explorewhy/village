@@ -12,9 +12,42 @@
     <div id="cesiumViewer">
       <div id="slider" class="slider" :class="{sliderOn: isActive}"></div>
     </div>
+<!--    经纬度-->
     <div class="latitude-longitude">
       <div class="jingdu">经度: <span id="longitude">114.000</span></div>
       <div class="weidu">纬度: <span id="latitude">36.0000</span></div>
+    </div>
+<!--    地下管线控制面板-->
+    <div id="toolbar" v-if="false">
+      <table>
+        <tbody>
+        <tr>
+          <td>Translucency enabled</td>
+          <td>
+            <input type="checkbox" data-bind="checked: translucencyEnabled">
+          </td>
+        </tr>
+        <tr>
+          <td>Fade by distance</td>
+          <td>
+            <input type="checkbox" data-bind="checked: fadeByDistance">
+          </td>
+        </tr>
+        <tr>
+          <td>Show vector data</td>
+          <td>
+            <input type="checkbox" data-bind="checked: showVectorData">
+          </td>
+        </tr>
+        <tr>
+          <td>Alpha</td>
+          <td>
+            <input type="range" min="0.0" max="1.0" step="0.1" data-bind="value: alpha, valueUpdate: 'input'">
+            <input type="text" size="5" data-bind="value: alpha">
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -55,9 +88,13 @@ export default {
   methods: {
     // 卷帘
     showRollerShutter () {
-      this.isActive = true;
-      // eslint-disable-next-line no-undef
-      this.rollerShutterTiles = cesiumTools.rollerBlind(Cesium, this.viewer, document.getElementById('slider'));
+      this.isActive = !this.isActive;
+      if (!this.isActive) {
+        this.viewer.imageryLayers.remove(this.rollerShutterTiles);
+      } else {
+        // eslint-disable-next-line no-undef
+        this.rollerShutterTiles = cesiumTools.rollerBlind(Cesium, this.viewer, document.getElementById('slider'));
+      }
     },
     // 三角测量
     triangulation () {
@@ -94,14 +131,30 @@ export default {
     }
   },
   watch: {
-    // 显示经纬度
-    '$store.state.showJWD' (val, oldVal) {
+    '$store.state.showJWD' (value, oldVal) {
       if (this.$store.state.showJWD) {
         // eslint-disable-next-line no-undef
         cesiumTools.showLatLongLine(Cesium, this.viewer);
       } else {
         this.viewer.entities.removeAll();
       }
+    },
+    '$store.state.downLine' (value, oldValue) {
+      const element = document.getElementById('toolbar');
+      if (this.$store.state.downLine) {
+        // eslint-disable-next-line no-undef
+        cesiumTools.downPipeline(Cesium, this.viewer, element);
+      } else {
+        this.viewer.entities.removeAll();
+      }
+    },
+    '$store.state.isAddTianDiTuVector' (value, oldValue) {
+      // eslint-disable-next-line no-undef
+      cesiumTools.tianDiVector(Cesium, this.viewer, this.$store.state.tiandituTk);
+    },
+    '$store.state.isAddTianDiTuImage' () {
+      // eslint-disable-next-line no-undef
+      cesiumTools.tianDiImage(Cesium, this.viewer, this.$store.state.tiandituTk);
     }
   }
 };
@@ -111,7 +164,6 @@ export default {
     width: 100%;
     height: 100%;
   }
-
   #cesiumViewer {
     position: relative;
     width: 100%;
@@ -136,6 +188,22 @@ export default {
     position: absolute;
     top: 100px;
     left: 300px;
+  }
+  #toolbar {
+    position: absolute;
+    top: 70px;
+    right: 16px;
+    background: rgba(42, 42, 42, 0.8);
+    padding: 4px;
+    border-radius: 4px;
+  }
+  #toolbar input {
+    vertical-align: middle;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  #toolbar .header {
+    font-weight: bold;
   }
   .latitude-longitude {
     position: relative;

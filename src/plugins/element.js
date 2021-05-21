@@ -36,8 +36,12 @@ import {
   MessageBox,
   Dialog,
   Select,
-  Option
+  Option,
+  Progress,
+  DatePicker
 } from 'element-ui';
+Vue.use(DatePicker);
+Vue.use(Progress);
 Vue.use(Option);
 Vue.use(Select);
 Vue.use(Dialog);
