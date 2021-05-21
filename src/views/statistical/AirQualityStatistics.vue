@@ -81,6 +81,17 @@
           </el-date-picker>
         </div>
       </div>
+      <div class="button-radio">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 15px">其他数据</div>
+        <div style="margin-bottom: 10px"><el-checkbox size="mini" v-model="all" label="全选" border @change="selectAll"></el-checkbox></div>
+        <div class="radios">
+          <el-checkbox size="mini" v-model="PM25" label="空气PM2.5值" border></el-checkbox>
+          <el-checkbox size="mini" v-model="So2" label="二氧化硫值" border></el-checkbox>
+          <el-checkbox size="mini" v-model="Co" label="一氧化碳值" border></el-checkbox>
+          <el-checkbox size="mini" v-model="No2" label="二氧化氮值" border></el-checkbox>
+          <el-checkbox size="mini" v-model="O3" label="臭氧值" border></el-checkbox>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -128,7 +139,13 @@ export default {
             picker.$emit('pick', [start, end]);
           }
         }]
-      }
+      },
+      all: false,
+      PM25: false,
+      So2: false,
+      Co: false,
+      No2: false,
+      O3: false
     };
   },
   mounted () {
@@ -176,8 +193,17 @@ export default {
       });
       this.isSuspended = true;
     },
+    // 数据格式化
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
+    },
+    // 是否全选
+    selectAll () {
+      this.PM25 = !this.PM25;
+      this.So2 = !this.So2;
+      this.Co = !this.Co;
+      this.No2 = !this.No2;
+      this.O3 = !this.O3;
     }
   }
 };
@@ -225,7 +251,11 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 70%;
+    height: 20%;
+  }
+  .button-radio {
+    width: 100%;
+    height: 50%;
   }
   .table-show {
     position: absolute;

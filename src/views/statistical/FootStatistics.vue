@@ -72,6 +72,16 @@
           </el-date-picker>
         </div>
       </div>
+      <div class="button-radio">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 15px">其他数据</div>
+        <div style="margin-bottom: 10px"><el-checkbox size="mini" v-model="all" label="全选" border @change="selectAll"></el-checkbox></div>
+        <div class="radios">
+          <el-checkbox size="mini" v-model="corn" label="玉米" border></el-checkbox>
+          <el-checkbox size="mini" v-model="barley" label="大麦" border></el-checkbox>
+          <el-checkbox size="mini" v-model="soybean" label="大豆" border></el-checkbox>
+          <el-checkbox size="mini" v-model="rice" label="水稻" border></el-checkbox>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -119,7 +129,12 @@ export default {
             picker.$emit('pick', [start, end]);
           }
         }]
-      }
+      },
+      all: false,
+      corn: false,
+      barley: false,
+      soybean: false,
+      rice: false
     };
   },
   mounted () {
@@ -169,6 +184,13 @@ export default {
     },
     foodManager () {
       window.location.href = 'http://www.yanhuangxueyuan.com/3D/liangcang/index.html';
+    },
+    // 是否全选
+    selectAll () {
+      this.corn = !this.corn;
+      this.barley = !this.barley;
+      this.soybean = !this.soybean;
+      this.rice = !this.rice;
     }
   }
 };
@@ -191,7 +213,7 @@ export default {
   }
   .btn {
     position: absolute;
-    top: 30px;
+    top: 10px;
     right: 10px;
     z-index: 99;
   }
@@ -216,12 +238,11 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 70%;
+    height: 20%;
   }
-  .table-show {
-    position: absolute;
+  .button-radio {
     width: 100%;
-    top: 20px;
+    height: 50%;
   }
   /deep/ .el-table th{
     color: #fff;

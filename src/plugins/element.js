@@ -38,8 +38,10 @@ import {
   Select,
   Option,
   Progress,
-  DatePicker
+  DatePicker,
+  Checkbox
 } from 'element-ui';
+Vue.use(Checkbox);
 Vue.use(DatePicker);
 Vue.use(Progress);
 Vue.use(Option);

@@ -76,6 +76,16 @@
           </el-date-picker>
         </div>
       </div>
+      <div class="button-radio">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 15px">其他数据</div>
+        <div style="margin-bottom: 10px"><el-checkbox size="mini" v-model="all" label="全选" border @change="selectAll"></el-checkbox></div>
+        <div class="radios">
+          <el-checkbox size="mini" v-model="technology" label="科技" border></el-checkbox>
+          <el-checkbox size="mini" v-model="agricultural" label="农业" border></el-checkbox>
+          <el-checkbox size="mini" v-model="education" label="教育" border></el-checkbox>
+          <el-checkbox size="mini" v-model="tax" label="税收" border></el-checkbox>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -123,7 +133,12 @@ export default {
             picker.$emit('pick', [start, end]);
           }
         }]
-      }
+      },
+      all: false,
+      technology: false,
+      agricultural: false,
+      education: false,
+      tax: false
     };
   },
   mounted () {
@@ -170,6 +185,12 @@ export default {
     },
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
+    },
+    selectAll () {
+      this.technology = !this.technology;
+      this.agricultural = !this.agricultural;
+      this.education = !this.education;
+      this.tax = !this.tax;
     }
   }
 };
@@ -217,7 +238,11 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 70%;
+    height: 20%;
+  }
+  .button-radio {
+    width: 100%;
+    height: 50%;
   }
   .table-show {
     position: absolute;
