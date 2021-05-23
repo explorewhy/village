@@ -261,6 +261,21 @@ function arcGISTerrain (Cesium, viewer) {
 
 }
 
+/**
+ * 跳转
+ * @param viewer
+ * @param longitude 经度
+ * @param latitude 纬度
+ * @param height 高度
+ */
+function jumpTo (viewer, longitude, latitude, height) {
+  viewer.camera.flyTo({
+    destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+    orientation: {
+    }
+  });
+}
+
 const cesiumTools = {
   downPipeline,
   rollerBlind,
@@ -270,7 +285,8 @@ const cesiumTools = {
   tianDiTerrain,
   arcGISVector,
   arcGISImage,
-  arcGISTerrain
+  arcGISTerrain,
+  jumpTo
 };
 
 export default cesiumTools;

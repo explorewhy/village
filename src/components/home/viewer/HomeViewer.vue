@@ -35,7 +35,7 @@ import cesiumTools from '../../../../static/cesiumTools'
           label: '河北省geoJson'
         },{
           value: 'yanggu',
-          label: '阳谷县geoJson'
+          label: '阳谷县模型'
         }],
         geoJsonType: '',
         geoJsonDataSource: null
@@ -106,6 +106,7 @@ import cesiumTools from '../../../../static/cesiumTools'
           entity.polygon.extrudedHeight = entity.properties.childrenNum * 1000;
         }
       },
+      // 添加阳谷县模型
       async addYangGuGeoJson () {
         this.viewer.dataSources.remove(this.geoJsonDataSource);
         this.geoJsonDataSource = await Cesium.GeoJsonDataSource.load(require('../../../assets/geojson/yanggu.json'), {
@@ -115,30 +116,12 @@ import cesiumTools from '../../../../static/cesiumTools'
         });
         await this.viewer.dataSources.add(this.geoJsonDataSource);
 
-        let villageTiles = new Cesium.Cesium3DTileset ({
-          // url: 'http://localhost:5000/village/tileset.json'
-          url: require('../../../../static/source/tileset.json')
+        let villageModel = new Cesium.Cesium3DTileset ({
+          url: 'http://localhost:5000/village/tileset.json'
+          // url: require('../../../../static/source/tileset.json')
         });
-
-        this.viewer.scene.primitives.add(villageTiles);
-        let long = 115.8644;
-        let lat = 36.1550;
-        let height = 60000;
-        let heading = 2;
-        villageTiles.readyPromise.then(function(argument) {
-          //经纬度、高转笛卡尔坐标
-          let position = Cesium.Cartesian3.fromDegrees(long, lat, height);
-          let mat = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-          let rotationX = Cesium.Matrix4.fromRotationTranslation(Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(heading)));
-          Cesium.Matrix4.multiply(mat, rotationX, mat);
-          villageTiles._root.transform = mat;
-        });
-
-        this.viewer.camera.flyTo({
-          destination : Cesium.Cartesian3.fromDegrees(115.8644, 36.1550, 60000),
-          orientation: {
-          }
-        });
+        this.viewer.scene.primitives.add(villageModel);
+        this.viewer.flyTo(villageModel)
       },
       // geoJson样式
       geoJsonStyle () {

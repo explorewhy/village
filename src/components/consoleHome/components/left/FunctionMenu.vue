@@ -11,10 +11,6 @@
           <i class="el-icon-picture-outline-round"></i>
           <span>地图工具</span>
         </template>
-<!--        <el-menu-item index="1-1">-->
-<!--          <img :src="require('../../../../assets/img/toolBar/doubleViewer.png')">-->
-<!--          <span>双屏对比</span>-->
-<!--        </el-menu-item>-->
         <el-menu-item index="1-2">
           <img :src="require('../../../../assets/img/toolBar/shutterView.png')">
           <span>地球卷帘</span>
@@ -65,17 +61,38 @@
         <i class="el-icon-s-tools"></i>
         <span>其他工具</span>
       </template>
-      <el-menu-item index="2-1">
-        <span @click="showLatLog">添加经纬度线</span>
+      <el-menu-item index="2-1" @click="showLatLog">
+        <span>添加经纬度线</span>
       </el-menu-item>
       <el-menu-item index="2-2" disabled>
-        <span @click="addDownLine">添加地下管线</span>
+        <span>添加地下管线</span>
       </el-menu-item>
-      <el-menu-item index="2-3" disabled>
-        <span @click="addDownLine">设置地图中心点</span>
+      <el-menu-item index="2-3" @click="openJump">
+        <span>跳转</span>
       </el-menu-item>
     </el-submenu>
     </el-menu>
+    <el-dialog
+        title="根据经纬度和高度跳转到指定位置"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false">
+      <el-form status-icon :model="dialogForm"  ref="dialogForm" :rules="tableRule" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="经度" prop="longitude">
+          <el-input v-model="dialogForm.longitude"></el-input>
+        </el-form-item>
+        <el-form-item label="纬度" prop="latitude">
+          <el-input v-model="dialogForm.latitude"></el-input>
+        </el-form-item>
+        <el-form-item label="高度" prop="height">
+          <el-input v-model="dialogForm.height" placeholder="默认高度为1000"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="jump">跳转</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -84,16 +101,37 @@
 export default {
   name: 'FunctionMenu',
   mounted () {
+    // this.dialogVisible = true;
   },
   data () {
-    return {};
+    return {
+      tableRule: {
+        longitude: [
+          { required: true, message: '请输入经度', trigger: 'blur' }
+        ],
+        latitude: [
+          { required: true, message: '请输入纬度', trigger: 'blur' }
+        ]
+      },
+      dialogVisible: false,
+      dialogForm: {
+        longitude: '',
+        latitude: '',
+        height: ''
+      }
+    };
   },
   methods: {
     showLatLog () {
       this.$store.commit('addJWD');
     },
-    addDownLine () {
-      this.$store.commit('addDownLines');
+    openJump () {
+      this.dialogVisible = true;
+      this.$refs.dialogForm.resetFields();
+    },
+    jump () {
+      this.$store.commit('beginJump', this.dialogForm);
+      this.dialogVisible = false;
     }
   }
 };

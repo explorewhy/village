@@ -155,6 +155,10 @@ export default {
     '$store.state.isAddTianDiTuImage' () {
       // eslint-disable-next-line no-undef
       cesiumTools.tianDiImage(Cesium, this.viewer, this.$store.state.tiandituTk);
+    },
+    '$store.state.isJump' (value, oldValue) {
+      const data = this.$store.state.jumpData;
+      cesiumTools.jumpTo(this.viewer, data.long, data.lat, data.height);
     }
   }
 };
