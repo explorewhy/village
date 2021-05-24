@@ -17,7 +17,7 @@
         </template>
           <el-menu-item index="1-1-1" @click="addTianDiTuVector">矢量底图</el-menu-item>
           <el-menu-item index="1-1-2" @click="addTianDiTuImage">影像底图</el-menu-item>
-          <el-menu-item index="1-1-3">三维地形</el-menu-item>
+          <el-menu-item index="1-1-3" @click="addTianDiTuTerrain">三维地形</el-menu-item>
         </el-submenu>
         <el-submenu index="1-2" disabled>
           <template slot="title">
@@ -50,6 +50,9 @@ export default {
     },
     addTianDiTuImage () {
       this.$store.state.isAddTianDiTuImage = !this.$store.state.isAddTianDiTuImage;
+    },
+    addTianDiTuTerrain () {
+      this.$store.state.isAddTianDiTuTerrain = !this.$store.state.isAddTianDiTuTerrain;
     }
   }
 };

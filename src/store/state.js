@@ -5,7 +5,9 @@ export default {
   showJWD: false, // 添加经纬度线
   isJump: false, // 是否跳转
   isAddTianDiTuVector: false, // 添加天地图矢量
-  isAddTianDiTuImage: false,
+  isAddTianDiTuImage: false, // 天地图影像
+  isAddTianDiTuTerrain: false, // 天地图三维
+  isAddYangGu3DTiles: false,
   airChartData: [], // 空气质量数据
   waterSourceData: [], // 水资源数据
   footChartData: [], // 粮食资源数据

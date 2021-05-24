@@ -84,6 +84,8 @@ export default {
     this.toolBarData.slider = document.getElementById('slider');
     const homeViewer = this.viewer;
     this.$store.commit('addControlViewer', { homeViewer });
+    // eslint-disable-next-line no-undef
+    cesiumTools.tianDiTerrain(Cesium, this.viewer, this.$store.state.tiandituTk);
   },
   methods: {
     // 卷帘
@@ -131,6 +133,7 @@ export default {
     }
   },
   watch: {
+    // 添加经纬度线
     '$store.state.showJWD' (value, oldVal) {
       if (this.$store.state.showJWD) {
         // eslint-disable-next-line no-undef
@@ -139,6 +142,7 @@ export default {
         this.viewer.entities.removeAll();
       }
     },
+    // 添加帝地下管线
     '$store.state.downLine' (value, oldValue) {
       const element = document.getElementById('toolbar');
       if (this.$store.state.downLine) {
@@ -148,17 +152,29 @@ export default {
         this.viewer.entities.removeAll();
       }
     },
+    // 添加矢量天地图
     '$store.state.isAddTianDiTuVector' (value, oldValue) {
       // eslint-disable-next-line no-undef
       cesiumTools.tianDiVector(Cesium, this.viewer, this.$store.state.tiandituTk);
     },
+    // 添加影像天地图
     '$store.state.isAddTianDiTuImage' () {
       // eslint-disable-next-line no-undef
       cesiumTools.tianDiImage(Cesium, this.viewer, this.$store.state.tiandituTk);
     },
+    // 经纬度跳转
     '$store.state.isJump' (value, oldValue) {
       const data = this.$store.state.jumpData;
       cesiumTools.jumpTo(this.viewer, data.long, data.lat, data.height);
+    },
+    // 添加天地图地形图
+    '$store.state.isAddTianDiTuTerrain' () {
+      // eslint-disable-next-line no-undef
+      cesiumTools.tianDiTerrain(Cesium, this.viewer, this.$store.state.tiandituTk);
+    },
+    '$store.state.isAddYangGu3DTiles' () {
+      // eslint-disable-next-line no-undef
+      cesiumTools.addYangGuGeoJson(Cesium, this.viewer);
     }
   }
 };

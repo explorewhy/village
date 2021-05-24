@@ -5,11 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "electron .",
+    "packager": "electron-packager ./ App --platform=win32 --arch=x64 --electron-version=2.0.0 --overwrite"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "canvas2image": "^1.0.5",
+    "cesium-tdt": "^1.1.0",
     "copy-webpack-plugin": "^8.1.1",
     "core-js": "^3.6.5",
     "echarts": "^4.9.0",

@@ -803,7 +803,7 @@ a.es5={getAllObservablesForObject:j,notifyWhenPresentOrFutureArrayValuesMutate:m
 // Determines which module loading scenario we're in, grabs dependencies, and attaches to KO
 function v(){if("object"==typeof exports&&"object"==typeof module){
 // Node.js case - load KO and WeakMap modules synchronously
-w=require("knockout");var b=a.WeakMap||require("../lib/weakmap");u(w),x=function(){return new b},module.exports=w}else"function"==typeof define&&define.amd?define('KnockoutES5',["knockout"],function(b){return w=b,u(b),x=function(){return new a.WeakMap},b}):"ko"in a&&(
+w=require("knockout");var b=a.WeakMap||require("../../public/lib/weakmap");u(w),x=function(){return new b},module.exports=w}else"function"==typeof define&&define.amd?define('KnockoutES5',["knockout"],function(b){return w=b,u(b),x=function(){return new a.WeakMap},b}):"ko"in a&&(
 // Non-module case - attach to the global instance, and assume a global WeakMap constructor
 w=a.ko,u(a.ko),x=function(){return new a.WeakMap})}var w,x,y,z,A=/^function\s*([^\s(]+)/;v()}("undefined"!=typeof window?window:"undefined"!=typeof global?global:this);
 /*! markdown-it-sanitizer 0.4.3 https://github.com/svbergerem/markdown-it-sanitizer @license MIT */
